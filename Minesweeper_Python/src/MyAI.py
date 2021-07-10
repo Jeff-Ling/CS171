@@ -28,8 +28,12 @@ class MyAI( AI ):
 		self.rowDimension = rowDimension
 		self.colDimension = colDimension
 		self.totalMines = totalMines
-		self.startX = self.startX
-		self.startY = self.startY
+		self.startX = startX
+		self.startY = startY
+
+		# Testing 
+		startX = 0
+		startY = 0
 
 		########################################################################
 		#							YOUR CODE ENDS							   #
