@@ -25,7 +25,12 @@ class MyAI( AI ):
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
 
-		pass
+		self.rowDimension = rowDimension
+		self.colDimension = colDimension
+		self.totalMines = totalMines
+		self.startX = self.startX
+		self.startY = self.startY
+
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
