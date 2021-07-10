@@ -41,8 +41,7 @@ class MyAI( AI ):
 		self.hintTiles = list() # Hint != 0
 		# Covered Tiles
 		self.unexploredTiles = list() 
-		#self.flaggedTiles = list()
-
+		self.flaggedTiles = list() # Suspected Mines
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
