@@ -42,6 +42,11 @@ class MyAI( AI ):
 		# Covered Tiles
 		self.unexploredTiles = list() 
 		self.flaggedTiles = list() # Suspected Mines
+
+		for i in range(0, rowDimension):
+			for j in range(0, colDimension):
+				self.unexploredTiles.append([i,j])
+
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
@@ -61,8 +66,11 @@ class MyAI( AI ):
 
 		if (number == 0):
 			self.safeTiles.append([self.startX, self.startY])
+		else:
+			self.hintTiles.append([self.startX, self.startY, number])
 
-		return Action(AI.Action.UNCOVER, 1, 1)
+		self.unexploredTiles.remove([self.startX, self.startY])
+
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
