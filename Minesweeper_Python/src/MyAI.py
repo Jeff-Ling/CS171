@@ -31,9 +31,9 @@ class MyAI( AI ):
 		self.startX = startX
 		self.startY = startY
 
-		self.safeTiles = list()
-		self.unexploredTiles = list()
-        self.flaggedTiles = list()
+		#self.safeTiles = list()
+		#self.unexploredTiles = list()
+        #self.flaggedTiles = list()
 
 		########################################################################
 		#							YOUR CODE ENDS							   #
