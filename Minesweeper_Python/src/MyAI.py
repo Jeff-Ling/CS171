@@ -31,9 +31,15 @@ class MyAI( AI ):
 		self.startX = startX
 		self.startY = startY
 
+<<<<<<< Updated upstream
 		self.safeTiles = list()
 		self.unexploredTiles = list()
         self.flaggedTiles = list()
+=======
+		self.uncover = []
+		self.safe = []
+		self.flagged = []
+>>>>>>> Stashed changes
 
 		########################################################################
 		#							YOUR CODE ENDS							   #
