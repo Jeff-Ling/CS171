@@ -30,11 +30,7 @@ class MyAI( AI ):
 		self.totalMines = totalMines
 		self.startX = startX
 		self.startY = startY
-
-		# Testing 
-		startX = 0
-		startY = 0
-
+		
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
