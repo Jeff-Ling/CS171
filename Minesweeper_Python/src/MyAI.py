@@ -31,15 +31,17 @@ class MyAI( AI ):
 		self.startX = startX
 		self.startY = startY
 
-<<<<<<< Updated upstream
-		self.safeTiles = list()
-		self.unexploredTiles = list()
-        self.flaggedTiles = list()
-=======
-		self.uncover = []
-		self.safe = []
-		self.flagged = []
->>>>>>> Stashed changes
+		self.previousX = 0
+		self.previousY = 0
+
+		self.firstStep = True
+
+		# Uncovered Tiles
+		self.safeTiles = list() # Hint = 0
+		self.hintTiles = list() # Hint != 0
+		# Covered Tiles
+		self.unexploredTiles = list() 
+        self.flaggedTiles = list() # Suspected Mines
 
 		########################################################################
 		#							YOUR CODE ENDS							   #
@@ -52,8 +54,22 @@ class MyAI( AI ):
 		#							YOUR CODE BEGINS						   #
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
+
+		if (firstStep)
+		{
+			self.firstStep = False
+			#self.previousX = self.startX
+			#self.previousY = self.startY
+			return Action(AI.Action.UNCOVER, self.startX, self.startY)
+		}
+
+		if (number == 0)
+		{
+			self.safeTiles.append([self.startX, self.startY])
+		}
+
+		return Action(AI.Action.UNCOVER, 1, 1)
 		
-		return Action(AI.Action.LEAVE)
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
