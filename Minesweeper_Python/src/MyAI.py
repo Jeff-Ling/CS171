@@ -42,6 +42,7 @@ class MyAI( AI ):
 		# Covered Tiles
 		self.unexploredTiles = list() 
 		self.flaggedTiles = list() # Suspected Mines
+		self.needUncover = list()
 
 		for i in range(0, rowDimension):
 			for j in range(0, colDimension):
@@ -67,15 +68,30 @@ class MyAI( AI ):
 		# Append uncovered tiles to list
 		if (number == 0):
 			self.safeTiles.append([self.previousX, self.previousY])
-		elif (number == 1):
+
+			self.needUncover.append([self.previousX - 1, self.previousY])
+			self.needUncover.append([self.previousX - 1, self.previousY + 1])
+			self.needUncover.append([self.previousX, self.previousY + 1])
+			self.needUncover.append([self.previousX + 1, self.previousY + 1])
+			self.needUncover.append([self.previousX + 1, self.previousY])
+			self.needUncover.append([self.previousX + 1, self.previousY - 1])
+			self.needUncover.append([self.previousX, self.previousY - 1])
+			self.needUncover.append([self.previousX - 1, self.previousY - 1])
+
+			for e in self.needUncover:
+				if e[0] < 0 or e[0] >= self.rowDimension or e[1] < 0 or e[1] >= self.colDimension:
+					self.needUncover.remove(e)
+				
+		elif (number > 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
-		else:
-			print(number)
 
-		self.unexploredTiles.remove([self.startX, self.startY])
+		self.unexploredTiles.remove([self.previousX, self.previousY])
 
-		return Action(AI.Action.FLAG, 2, 2)
-		#if self.safeTiles != 
+
+		if (self.needUncover != list()):
+			self.previousX = self.needUncover[0][0]
+			self.previousY = self.needUncover[0][1]
+			return Action(AI.Action.UNCOVER, self.needUncover[0][0], self.needUncover[0][1])
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
