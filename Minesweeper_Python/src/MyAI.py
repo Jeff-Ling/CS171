@@ -85,40 +85,31 @@ class MyAI( AI ):
 			self.unexploredTiles.remove([self.previousX, self.previousY])
 
 			# Uncover all tiles around safe tile
-			self.needUncover.append([self.previousX, self.previousY + 1])
-			self.needUncover.append([self.previousX, self.previousY - 1])
-			self.needUncover.append([self.previousX + 1, self.previousY])
-			self.needUncover.append([self.previousX + 1, self.previousY + 1])
-			self.needUncover.append([self.previousX + 1, self.previousY - 1])
-			self.needUncover.append([self.previousX - 1, self.previousY])
-			self.needUncover.append([self.previousX - 1, self.previousY + 1])
-			self.needUncover.append([self.previousX - 1, self.previousY - 1])
+			tilesArountCurrent = []
+			tilesArountCurrent.append([self.previousX, self.previousY + 1])
+			tilesArountCurrent.append([self.previousX, self.previousY - 1])
+			tilesArountCurrent.append([self.previousX + 1, self.previousY])
+			tilesArountCurrent.append([self.previousX + 1, self.previousY + 1])
+			tilesArountCurrent.append([self.previousX + 1, self.previousY - 1])
+			tilesArountCurrent.append([self.previousX - 1, self.previousY])
+			tilesArountCurrent.append([self.previousX - 1, self.previousY + 1])
+			tilesArountCurrent.append([self.previousX - 1, self.previousY - 1])
 
 			# Ensure action in bound
-			for e in self.needUncover:
-				f = e + [1]
-				"""
-				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
-					self.needUncover.remove(e)
-				"""
-				if e[0] < 0 or e[0] > self.rowDimension:
-					self.needUncover.remove(e)
-				elif e[1] < 0 or e[1] > self.colDimension:
-					self.needUncover.remove(e)
-				elif e in self.safeTiles or f in self.hintTiles:
-					self.needUncover.remove(e)
-			"""
-			for i in self.needUncover:
-				tilesConflictInSafe = re.search(i, self.safeTiles)
-				tilesConflictInHint = re.search(i, self.hintTiles)
-				if (tilesConflictInSafe == True and tilesConflictInHint == True):
-					self.needUncover.remove(i)
-			"""
+			for e in tilesArountCurrent:
+				f = e + [1] # 1 is hint
+
+				if e[0] >= 0 and e[0] <= self.rowDimension and e[1] >= 0 and e[1] <= self.colDimension and e not in self.needUncover and f not in self.hintTiles and e not in self.safeTiles:
+					self.needUncover.append(e)
+				#if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
+					#self.needUncover.remove(e)
+				
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
 
 			# Remove the tiles from unexplored tiles list
 			self.unexploredTiles.remove([self.previousX, self.previousY])
+
 
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
@@ -139,6 +130,7 @@ class MyAI( AI ):
 				self.flaggedTiles.append([i[0], i[1]])
 				self.needUncover = [] + self.unexploredTiles
 				return Action(AI.Action.FLAG, i[0], i[1])
+				
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
 	def findNeighbour (self, x, y):
