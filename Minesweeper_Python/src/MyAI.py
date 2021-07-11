@@ -97,9 +97,19 @@ class MyAI( AI ):
 			# Ensure action in bound
 			for e in self.needUncover:
 				f = e + [1]
-				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
-					self.needUncover.remove(e)
 				
+				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or e in self.hintTiles:
+					self.needUncover.remove(e)
+
+				"""
+				if e[0] < 0 or e[0] > self.rowDimension:
+					self.needUncover.remove(e)
+				elif e[1] < 0 or e[1] > self.colDimension:
+					self.needUncover.remove(e)
+				elif e in self.safeTiles or e in self.hintTiles:
+					self.needUncover.remove(e)
+				"""
+
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
 
