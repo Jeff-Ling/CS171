@@ -116,8 +116,11 @@ class MyAI( AI ):
 			self.previousX = self.needUncover[0][0]
 			self.previousY = self.needUncover[0][1]
 			print ([self.previousX, self.previousY])
+			print ("needUncover:")
 			print (self.needUncover)
+			print ("safeTiles:")
 			print (self.safeTiles)
+			print ("hintTiles:")
 			print (self.hintTiles)
 			self.needUncover.pop(0)
 			self.whenToLeaveCounter -= 1
@@ -126,9 +129,11 @@ class MyAI( AI ):
 		for i in self.hintTiles:
 			Neighbour = self.findNeighbour(i[0], i[1])
 			if len(Neighbour) == i[2]:
-				self.unexploredTiles.remove([Neighbour[0][0], Neighbour[0][1])
-				self.flaggedTiles.append([Neighbour[0][0], Neighbour[0][1]
-				return Action(AI.Action.FLAG, Neighbour[0][0], Neighbour[0][1])
+				self.unexploredTiles.remove([i[0], i[1]])
+				self.flaggedTiles.append([i[0], i[1]])
+				self.needUncover = [] + self.unexploredTiles
+				# return Action(AI.Action.FLAG, i[0], i[1])
+				return Action(AI.Action.LEAVE)
 				
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
@@ -154,7 +159,9 @@ class MyAI( AI ):
 		for e in tilesAround:
 			if e in self.unexploredTiles:
 				tileCovered.append(e)
+		print("tilesAround:")
 		print(tilesAround)
+		print("tileCovered:")
 		print(tileCovered)
 
 		return tileCovered
