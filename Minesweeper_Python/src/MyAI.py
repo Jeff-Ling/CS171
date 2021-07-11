@@ -58,19 +58,24 @@ class MyAI( AI ):
 		#							YOUR CODE BEGINS						   #
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
-		#if (self.firstStep):
-		#	self.firstStep = False
-			#self.previousX = self.startX
-			#self.previousY = self.startY
-		#	return Action(AI.Action.UNCOVER, self.startX, self.startY)
+		if (self.firstStep):
+			self.firstStep = False
+			self.previousX = self.startX
+			self.previousY = self.startY
+			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
+
+		# Append tiles to list
 		if (number == 0):
-			self.safeTiles.append([self.startX, self.startY])
+			self.safeTiles.append([self.previousX, self.startY])
 		else:
-			self.hintTiles.append([self.startX, self.startY, number])
+			self.hintTiles.append([self.previousY, self.startY, number])
 
 		self.unexploredTiles.remove([self.startX, self.startY])
-		return Action(AI.Action.UNCOVER, 1, 1)
+
+		
+		for e in self.safeTiles:
+			
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
