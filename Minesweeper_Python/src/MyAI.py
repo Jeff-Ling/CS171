@@ -30,6 +30,7 @@ class MyAI( AI ):
 		self.totalMines = totalMines
 		self.startX = startX
 		self.startY = startY
+		self.leaveCounter = rowDimension * colDimension - totalMines
 
 		self.previousX = 0
 		self.previousY = 0
