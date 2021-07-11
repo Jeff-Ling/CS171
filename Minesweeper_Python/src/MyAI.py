@@ -30,7 +30,6 @@ class MyAI( AI ):
 		self.totalMines = totalMines
 		self.startX = startX
 		self.startY = startY
-		self.leaveCounter = rowDimension * colDimension - totalMines
 
 		self.previousX = 0
 		self.previousY = 0
@@ -71,8 +70,7 @@ class MyAI( AI ):
 			self.hintTiles.append([self.startX, self.startY, number])
 
 		self.unexploredTiles.remove([self.startX, self.startY])
-
-		return Action(AI.Action.LEAVE)
+		return Action(AI.Action.UNCOVER, 1, 1)
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
