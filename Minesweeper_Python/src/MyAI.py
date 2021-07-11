@@ -42,6 +42,7 @@ class MyAI( AI ):
 		# Uncovered Tiles
 		self.safeTiles = list() # Hint = 0
 		self.hintTiles = list() # Hint != 0
+		self.unexploredTiles = self.safeTiles + self.hintTiles # Test list
 		# Covered Tiles
 		self.unexploredTiles = list() 
 		self.flaggedTiles = list() # Suspected Mines
@@ -134,7 +135,13 @@ class MyAI( AI ):
 				self.flaggedTiles.append([i[0], i[1]])
 				self.needUncover = [] + self.unexploredTiles
 				return Action(AI.Action.FLAG, i[0], i[1])
-				
+
+		for i in self.needUncover:
+			tilesConflict = re.search(i, self.exploredTiles)
+			if (tilesConflict == True):
+				self.needUncover.remove(i)
+			else:
+				return Action(AI.Action.UNCOVER, i[0], i[1])
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
 	def findNeighbour (self, x, y):
