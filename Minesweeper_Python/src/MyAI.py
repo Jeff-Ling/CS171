@@ -94,7 +94,8 @@ class MyAI( AI ):
 			self.previousY = self.needUncover[0][1]
 			print ([self.previousX, self.previousY])
 			print (self.needUncover)
-			return Action(AI.Action.UNCOVER, self.needUncover[0][0], self.needUncover[0][1])
+			self.needUncover.pop(0)
+			return Action(AI.Action.UNCOVER, self.previousX, self.previousY)
 		
 
 		########################################################################
