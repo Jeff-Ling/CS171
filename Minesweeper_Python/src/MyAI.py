@@ -35,6 +35,8 @@ class MyAI( AI ):
 		self.previousX = 0
 		self.previousY = 0
 
+		self.whenToLeaveCounter = rowDimension * colDimension - totalMines
+
 		self.firstStep = True
 
 		# Uncovered Tiles
@@ -63,17 +65,24 @@ class MyAI( AI ):
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
 		
+		if (self.whenToLeaveCounter == 0):
+			return Action(AI.Action.LEAVE)		
+
 		if (self.firstStep == True):
 			self.firstStep = False
 			self.previousX = self.startX
 			self.previousY = self.startY
 			print ([self.startX, self.startY])
 			print ("Finish first time")
+			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
 		if (number == 0):
 			# Append uncovered tiles to list
 			self.safeTiles.append([self.previousX, self.previousY])
+
+			# Remove the tiles from unexplored tiles list
+			self.unexploredTiles.remove([self.previousX, self.previousY])
 
 			# Uncover all tiles around safe tile
 			self.needUncover.append([self.previousX, self.previousY + 1])
@@ -94,8 +103,9 @@ class MyAI( AI ):
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
 
-		# Remove the tiles from unexplored tiles list
-		self.unexploredTiles.remove([self.previousX, self.previousY])
+			# Remove the tiles from unexplored tiles list
+			self.unexploredTiles.remove([self.previousX, self.previousY])
+
 
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
@@ -106,12 +116,24 @@ class MyAI( AI ):
 			print (self.safeTiles)
 			print (self.hintTiles)
 			self.needUncover.pop(0)
+			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.previousX, self.previousY)
+
+		for i in self.hintTiles:
+			Neighbour = self.findNeighbour(i[0], i[1])
+			if len(Neighbour) == i[2]:
+				self.unexploredTiles.remove([i[0], i[1]])
+				self.flaggedTiles.append([i[0], i[1]])
+				self.needUncover = [] + self.unexploredTiles
+				return Action(AI.Action.FLAG, i[0], i[1])
+				
 		
-		def findNeighbour (x, y):
-			tileCovered = re.search([x, y], self.unexploredTiles)
-			if (tileCovered == True):
-				self.tilesCoveredAroundCurrent.append([x, y])
+	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
+	def findNeighbour (self, x, y):
+		tileCovered = re.search([x, y], self.unexploredTiles)
+		if (tileCovered == True):
+			self.tilesCoveredAroundCurrent.append([x, y])
+		return tileCovered
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
