@@ -66,15 +66,15 @@ class MyAI( AI ):
 
 		# Append uncovered tiles to list
 		if (number == 0):
-			self.safeTiles.append([self.previousX, self.startY])
+			self.safeTiles.append([self.previousX, self.previousY])
 		elif (number == 1):
-			self.hintTiles.append([self.previousY, self.startY, number])
+			self.hintTiles.append([self.previousX, self.previousY, number])
 		else:
 			print(number)
 
 		self.unexploredTiles.remove([self.startX, self.startY])
 
-		return Action(AI.Action.UNCOVER, 1, 1)
+		return Action(AI.Action.UNCOVER, 2, 2)
 		#if self.safeTiles != 
 		########################################################################
 		#							YOUR CODE ENDS							   #
