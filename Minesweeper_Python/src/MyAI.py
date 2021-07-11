@@ -108,6 +108,13 @@ class MyAI( AI ):
 					self.needUncover.remove(e)
 				elif e in self.safeTiles or f in self.hintTiles:
 					self.needUncover.remove(e)
+			
+			for i in self.needUncover:
+				tilesConflict = re.search(i, self.exploredTiles)
+				if (tilesConflict == True):
+					self.needUncover.remove(i)
+				else:
+					return Action(AI.Action.UNCOVER, i[0], i[1])
 
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
@@ -135,13 +142,6 @@ class MyAI( AI ):
 				self.flaggedTiles.append([i[0], i[1]])
 				self.needUncover = [] + self.unexploredTiles
 				return Action(AI.Action.FLAG, i[0], i[1])
-
-		for i in self.needUncover:
-			tilesConflict = re.search(i, self.exploredTiles)
-			if (tilesConflict == True):
-				self.needUncover.remove(i)
-			else:
-				return Action(AI.Action.UNCOVER, i[0], i[1])
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
 	def findNeighbour (self, x, y):
