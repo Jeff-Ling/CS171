@@ -58,11 +58,11 @@ class MyAI( AI ):
 		#							YOUR CODE BEGINS						   #
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
-		if (self.firstStep):
-			self.firstStep = False
+		#if (self.firstStep):
+		#	self.firstStep = False
 			#self.previousX = self.startX
 			#self.previousY = self.startY
-			return Action(AI.Action.UNCOVER, self.startX, self.startY)
+		#	return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
 		if (number == 0):
 			self.safeTiles.append([self.startX, self.startY])
@@ -71,6 +71,7 @@ class MyAI( AI ):
 
 		self.unexploredTiles.remove([self.startX, self.startY])
 
+		return Action(AI.Action.LEAVE)
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
