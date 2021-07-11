@@ -83,7 +83,7 @@ class MyAI( AI ):
 				if e[0] < 0 or e[0] >= self.rowDimension or e[1] < 0 or e[1] >= self.colDimension or e in self.safeTiles:
 					self.needUncover.remove(e)
 				
-		elif (number > 1):
+		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
 
 		self.unexploredTiles.remove([self.previousX, self.previousY])
