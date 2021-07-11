@@ -132,7 +132,8 @@ class MyAI( AI ):
 				self.unexploredTiles.remove([i[0], i[1]])
 				self.flaggedTiles.append([i[0], i[1]])
 				self.needUncover = [] + self.unexploredTiles
-				return Action(AI.Action.FLAG, i[0], i[1])
+				# return Action(AI.Action.FLAG, i[0], i[1])
+				return Action(AI.Action.LEAVE)
 				
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
