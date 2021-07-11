@@ -134,25 +134,29 @@ class MyAI( AI ):
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
 	def findNeighbour (self, x, y):
-		#tileCovered = re.search([x, y], self.unexploredTiles)
-		#if (tileCovered == True):
-			#self.tilesCoveredAroundCurrent.append([x, y])
-		#return tileCovered
+		"""
+		tileCovered = re.search([x, y], self.unexploredTiles)
+		if (tileCovered == True):
+			self.tilesCoveredAroundCurrent.append([x, y])
+		return tileCovered
+		"""
 		tileCovered = []
 
-		tileAround = []
-		tileAround.append([x, y + 1])
-		tileAround.append([x, y - 1])
-		tileAround.append([x + 1, y])
-		tileAround.append([x + 1, y + 1])
-		tileAround.append([x + 1, y - 1])
-		tileAround.append([x - 1, y])
-		tileAround.append([x - 1, y + 1])
-		tileAround.append([x - 1, y - 1])
+		tilesAround = []
+		tilesAround.append([x, y + 1])
+		tilesAround.append([x, y - 1])
+		tilesAround.append([x + 1, y])
+		tilesAround.append([x + 1, y + 1])
+		tilesAround.append([x + 1, y - 1])
+		tilesAround.append([x - 1, y])
+		tilesAround.append([x - 1, y + 1])
+		tilesAround.append([x - 1, y - 1])
 
-		for e in tileAround:
+		for e in tilesAround:
 			if e in self.unexploredTiles:
 				tileCovered.append(e)
+		print(tilesAround)
+		print(tileCovered)
 
 		return tileCovered
 		########################################################################
