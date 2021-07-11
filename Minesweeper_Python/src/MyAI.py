@@ -64,8 +64,7 @@ class MyAI( AI ):
 			self.previousY = self.startY
 			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
-
-		# Append tiles to list
+		# Append uncovered tiles to list
 		if (number == 0):
 			self.safeTiles.append([self.previousX, self.startY])
 		elif (number == 1):
