@@ -63,7 +63,7 @@ class MyAI( AI ):
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
 		
-		if (self.firstStep):
+		if (self.firstStep == True):
 			self.firstStep = False
 			self.previousX = self.startX
 			self.previousY = self.startY
@@ -110,7 +110,7 @@ class MyAI( AI ):
 		
 		def findNeighbour (x, y):
 			tileCovered = re.search([x, y], self.unexploredTiles)
-			if tileCovered == True:
+			if (tileCovered == True):
 				self.tilesCoveredAroundCurrent.append([x, y])
 		########################################################################
 		#							YOUR CODE ENDS							   #
