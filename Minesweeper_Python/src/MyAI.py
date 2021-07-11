@@ -15,7 +15,7 @@
 from AI import AI
 from Action import Action
 
-import re
+#import re
 
 class MyAI( AI ):
 
@@ -134,9 +134,26 @@ class MyAI( AI ):
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
 	def findNeighbour (self, x, y):
-		tileCovered = re.search([x, y], self.unexploredTiles)
-		if (tileCovered == True):
-			self.tilesCoveredAroundCurrent.append([x, y])
+		#tileCovered = re.search([x, y], self.unexploredTiles)
+		#if (tileCovered == True):
+			#self.tilesCoveredAroundCurrent.append([x, y])
+		#return tileCovered
+		tileCovered = []
+
+		tileAround = []
+		tileAround.append([x, y + 1])
+		tileAround.append([x, y - 1])
+		tileAround.append([x + 1, y])
+		tileAround.append([x + 1, y + 1])
+		tileAround.append([x + 1, y - 1])
+		tileAround.append([x - 1, y])
+		tileAround.append([x - 1, y + 1])
+		tileAround.append([x - 1, y - 1])
+
+		for e in tileAround:
+			if e in self.unexploredTiles:
+				tileCovered.append(e)
+
 		return tileCovered
 		########################################################################
 		#							YOUR CODE ENDS							   #
