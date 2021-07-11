@@ -90,9 +90,10 @@ class MyAI( AI ):
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
 
+		# Remove the tiles from unexplored tiles list
 		self.unexploredTiles.remove([self.previousX, self.previousY])
 
-		if (self.needUncover != list()):
+		if (len(self.needUncover) != 0):
 			self.previousX = self.needUncover[0][0]
 			self.previousY = self.needUncover[0][1]
 			print ([self.previousX, self.previousY])
