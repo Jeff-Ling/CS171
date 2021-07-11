@@ -110,7 +110,7 @@ class MyAI( AI ):
 			for i in self.needUncover:
 				tilesConflictInSafe = re.search(i, self.safeTiles)
 				tilesConflictInHint = re.search(i, self.hintTiles)
-				if (tilesConflictInSafe == True | tilesConflictInHint == True):
+				if (tilesConflictInSafe == True and tilesConflictInHint == True):
 					self.needUncover.remove(i)
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
