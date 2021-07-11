@@ -72,8 +72,8 @@ class MyAI( AI ):
 			self.firstStep = False
 			self.previousX = self.startX
 			self.previousY = self.startY
-			print ([self.startX, self.startY])
-			print ("Finish first time")
+			"""print ([self.startX, self.startY])
+			print ("Finish first time")"""
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
@@ -115,6 +115,7 @@ class MyAI( AI ):
 		if (len(self.needUncover) != 0):
 			self.previousX = self.needUncover[0][0]
 			self.previousY = self.needUncover[0][1]
+			"""
 			print ([self.previousX, self.previousY])
 			print ("needUncover:")
 			print (self.needUncover)
@@ -122,6 +123,7 @@ class MyAI( AI ):
 			print (self.safeTiles)
 			print ("hintTiles:")
 			print (self.hintTiles)
+			"""
 			self.needUncover.pop(0)
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.previousX, self.previousY)
@@ -158,10 +160,10 @@ class MyAI( AI ):
 		for e in tilesAround:
 			if e in self.unexploredTiles:
 				tileCovered.append(e)
-		print("tilesAround:")
+		"""print("tilesAround:")
 		print(tilesAround)
 		print("tileCovered:")
-		print(tileCovered)
+		print(tileCovered)"""
 
 		return tileCovered
 		########################################################################
