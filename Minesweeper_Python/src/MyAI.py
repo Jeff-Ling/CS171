@@ -85,6 +85,7 @@ class MyAI( AI ):
 			# Ensure action in bound
 			for e in self.needUncover:
 				f = e + [number]
+				print(f)
 				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
 					self.needUncover.remove(e)
 				
@@ -94,6 +95,7 @@ class MyAI( AI ):
 		# Remove the tiles from unexplored tiles list
 		self.unexploredTiles.remove([self.previousX, self.previousY])
 
+		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
 			self.previousX = self.needUncover[0][0]
 			self.previousY = self.needUncover[0][1]
