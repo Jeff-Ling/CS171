@@ -68,14 +68,15 @@ class MyAI( AI ):
 		# Append tiles to list
 		if (number == 0):
 			self.safeTiles.append([self.previousX, self.startY])
-		else:
+		elif (number == 1):
 			self.hintTiles.append([self.previousY, self.startY, number])
+		else:
+			print(number)
 
 		self.unexploredTiles.remove([self.startX, self.startY])
 
 		
-		for e in self.safeTiles:
-			
+		#if self.safeTiles != 
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
