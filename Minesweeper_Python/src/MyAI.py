@@ -63,8 +63,8 @@ class MyAI( AI ):
 			self.firstStep = False
 			self.previousX = self.startX
 			self.previousY = self.startY
+			print ([self.startX, self.startY])
 			print ("Finish first time")
-			print([self.rowDimension, self.colDimension])
 			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
 		# Append uncovered tiles to list
