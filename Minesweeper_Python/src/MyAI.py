@@ -108,20 +108,18 @@ class MyAI( AI ):
 					self.needUncover.remove(e)
 				elif e in self.safeTiles or f in self.hintTiles:
 					self.needUncover.remove(e)
-			
-			for i in self.needUncover:
-				tilesConflict = re.search(i, self.exploredTiles)
-				if (tilesConflict == True):
-					self.needUncover.remove(i)
-				else:
-					return Action(AI.Action.UNCOVER, i[0], i[1])
-
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
 
 			# Remove the tiles from unexplored tiles list
 			self.unexploredTiles.remove([self.previousX, self.previousY])
-
+		
+		for i in self.needUncover:
+			tilesConflict = re.search(i, self.exploredTiles)
+			if (tilesConflict == True):
+				self.needUncover.remove(i)
+			else:
+				return Action(AI.Action.UNCOVER, i[0], i[1])
 
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
