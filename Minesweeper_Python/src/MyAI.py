@@ -74,7 +74,7 @@ class MyAI( AI ):
 
 		self.unexploredTiles.remove([self.startX, self.startY])
 
-		return Action(AI.Action.UNCOVER, 2, 2)
+		return Action(AI.Action.FLAG, 2, 2)
 		#if self.safeTiles != 
 		########################################################################
 		#							YOUR CODE ENDS							   #
