@@ -81,7 +81,7 @@ class MyAI( AI ):
 			self.needUncover.append([self.previousX - 1, self.previousY - 1])
 
 			for e in self.needUncover:
-				if e[0] < 0 or e[0] >= self.rowDimension or e[1] < 0 or e[1] >= self.colDimension or e in self.safeTiles or e in self.hintTiles:
+				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or e in self.hintTiles:
 					self.needUncover.remove(e)
 				
 		elif (number >= 1):
