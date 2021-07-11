@@ -84,8 +84,7 @@ class MyAI( AI ):
 
 			# Ensure action in bound
 			for e in self.needUncover:
-				f = e + [number]
-				print(f)
+				f = e + [1]
 				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
 					self.needUncover.remove(e)
 				
