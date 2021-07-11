@@ -59,6 +59,7 @@ class MyAI( AI ):
 		#							YOUR CODE BEGINS						   #
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
+		
 		if (self.firstStep):
 			self.firstStep = False
 			self.previousX = self.startX
@@ -71,15 +72,17 @@ class MyAI( AI ):
 		if (number == 0):
 			self.safeTiles.append([self.previousX, self.previousY])
 
+			# Uncover all tiles around safe tile
+			self.needUncover.append([self.previousX, self.previousY + 1])
+			self.needUncover.append([self.previousX, self.previousY - 1])
+			self.needUncover.append([self.previousX + 1, self.previousY])
+			self.needUncover.append([self.previousX + 1, self.previousY + 1])
+			self.needUncover.append([self.previousX + 1, self.previousY - 1])
 			self.needUncover.append([self.previousX - 1, self.previousY])
 			self.needUncover.append([self.previousX - 1, self.previousY + 1])
-			self.needUncover.append([self.previousX, self.previousY + 1])
-			self.needUncover.append([self.previousX + 1, self.previousY + 1])
-			self.needUncover.append([self.previousX + 1, self.previousY])
-			self.needUncover.append([self.previousX + 1, self.previousY - 1])
-			self.needUncover.append([self.previousX, self.previousY - 1])
 			self.needUncover.append([self.previousX - 1, self.previousY - 1])
 
+			# Ensure action in bound
 			for e in self.needUncover:
 				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or e in self.hintTiles:
 					self.needUncover.remove(e)
@@ -89,16 +92,15 @@ class MyAI( AI ):
 
 		self.unexploredTiles.remove([self.previousX, self.previousY])
 
-
 		if (self.needUncover != list()):
 			self.previousX = self.needUncover[0][0]
 			self.previousY = self.needUncover[0][1]
 			print ([self.previousX, self.previousY])
 			print (self.needUncover)
+			print (self.safeTiles)
+			print (self.hintTiles)
 			self.needUncover.pop(0)
 			return Action(AI.Action.UNCOVER, self.previousX, self.previousY)
-		
-
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
