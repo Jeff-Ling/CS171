@@ -15,6 +15,7 @@
 from AI import AI
 from Action import Action
 
+import re
 
 class MyAI( AI ):
 
@@ -42,7 +43,9 @@ class MyAI( AI ):
 		# Covered Tiles
 		self.unexploredTiles = list() 
 		self.flaggedTiles = list() # Suspected Mines
+
 		self.needUncover = list()
+		self.tilesCoveredAroundCurrent = list()
 
 		for i in range(0, rowDimension):
 			for j in range(0, colDimension):
@@ -68,8 +71,8 @@ class MyAI( AI ):
 			print ("Finish first time")
 			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
-		# Append uncovered tiles to list
 		if (number == 0):
+			# Append uncovered tiles to list
 			self.safeTiles.append([self.previousX, self.previousY])
 
 			# Uncover all tiles around safe tile
@@ -104,6 +107,11 @@ class MyAI( AI ):
 			print (self.hintTiles)
 			self.needUncover.pop(0)
 			return Action(AI.Action.UNCOVER, self.previousX, self.previousY)
+		
+		def findNeighbour (x, y):
+			tileCovered = re.search([x, y], self.unexploredTiles)
+			if tileCovered == True:
+				self.tilesCoveredAroundCurrent.append([x, y])
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
