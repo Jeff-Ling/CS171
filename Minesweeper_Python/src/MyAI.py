@@ -64,6 +64,7 @@ class MyAI( AI ):
 			self.previousX = self.startX
 			self.previousY = self.startY
 			print ("Finish first time")
+			print([self.rowDimension, self.colDimension])
 			return Action(AI.Action.UNCOVER, self.startX, self.startY)
 
 		# Append uncovered tiles to list
@@ -80,7 +81,7 @@ class MyAI( AI ):
 			self.needUncover.append([self.previousX - 1, self.previousY - 1])
 
 			for e in self.needUncover:
-				if e[0] < 0 or e[0] >= self.rowDimension or e[1] < 0 or e[1] >= self.colDimension or e in self.safeTiles:
+				if e[0] < 0 or e[0] >= self.rowDimension or e[1] < 0 or e[1] >= self.colDimension or e in self.safeTiles or e in self.hintTiles:
 					self.needUncover.remove(e)
 				
 		elif (number >= 1):
