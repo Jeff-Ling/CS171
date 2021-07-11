@@ -25,8 +25,8 @@ class MyAI( AI ):
 		########################################################################
 		# Edited by Y. Song and J. Ling at 2021.07.10
 
-		self.rowDimension = rowDimension
-		self.colDimension = colDimension
+		self.rowDimension = rowDimension - 1
+		self.colDimension = colDimension - 1
 		self.totalMines = totalMines
 		self.startX = startX
 		self.startY = startY
