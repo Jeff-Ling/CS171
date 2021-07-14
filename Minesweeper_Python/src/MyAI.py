@@ -87,7 +87,8 @@ class MyAI( AI ):
 			self.unexploredTiles.remove([self.previousX, self.previousY])
 
 			# Uncover all tiles around safe tile
-			tilesArountCurrent = []
+			tilesArountCurrent = self.findNeighbours(self.previousX, self.previousY)
+			'''tilesArountCurrent = []
 			tilesArountCurrent.append([self.previousX, self.previousY + 1])
 			tilesArountCurrent.append([self.previousX, self.previousY - 1])
 			tilesArountCurrent.append([self.previousX + 1, self.previousY])
@@ -95,7 +96,7 @@ class MyAI( AI ):
 			tilesArountCurrent.append([self.previousX + 1, self.previousY - 1])
 			tilesArountCurrent.append([self.previousX - 1, self.previousY])
 			tilesArountCurrent.append([self.previousX - 1, self.previousY + 1])
-			tilesArountCurrent.append([self.previousX - 1, self.previousY - 1])
+			tilesArountCurrent.append([self.previousX - 1, self.previousY - 1])'''
 
 			# Ensure action in bound
 			for e in tilesArountCurrent:
@@ -131,25 +132,37 @@ class MyAI( AI ):
 			return Action(AI.Action.UNCOVER, self.previousX, self.previousY)
 
 		for i in self.hintTiles:
-			Neighbour = self.findNeighbour(i[0], i[1])
-			if len(Neighbour) == i[2]:
-				self.unexploredTiles.remove([Neighbour[0][0], Neighbour[0][1]])
-				self.flaggedTiles.append([Neighbour[0][0], Neighbour[0][1]])
+			neighbours = self.findNeighbour(i[0], i[1])
+
+			neighbours_covered = list()
+			for tile in neighbours:
+				if tile in self.unexploredTiles:
+					neighbours_covered.append(tile)
+
+			if len(neighbours_covered) == i[2]:
+				self.unexploredTiles.remove([neighbours_covered[0][0], neighbours_covered[0][1]])
+				self.flaggedTiles.append([neighbours_covered[0][0], neighbours_covered[0][1]])
 				self.needUncover = [] + self.unexploredTiles
-				return Action(AI.Action.FLAG, Neighbour[0][0], Neighbour[0][1])
+				return Action(AI.Action.FLAG, neighbours_covered[0][0], neighbours_covered[0][1])
 				
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
-	def findNeighbour (self, x, y):
+	def findNeighbours (self, x, y) -> list:
 		"""
 		tileCovered = re.search([x, y], self.unexploredTiles)
 		if (tileCovered == True):
 			self.tilesCoveredAroundCurrent.append([x, y])
 		return tileCovered
 		"""
-		tileCovered = []
+		neighbours = []
 
-		tilesAround = []
+		for neighbour_x in range (x - 1, x + 2):
+			for neighbour_y in range (y - 1, y + 2):
+				if 0 <= neighbour_x <= self.rowDimension and 0 <= y <= self.colDimension and (x != neighbour_x and y != neighbour_y):
+					neighbours.append([neighbour_x, neighbour_y])
+		
+		
+		'''tilesAround = []
 		tilesAround.append([x, y + 1])
 		tilesAround.append([x, y - 1])
 		tilesAround.append([x + 1, y])
@@ -161,7 +174,8 @@ class MyAI( AI ):
 
 		for e in tilesAround:
 			if e in self.unexploredTiles:
-				tileCovered.append(e)
+				neighbours.append(e)
+		'''
 		"""
 		print("tilesAround:")
 		print(tilesAround)
@@ -169,7 +183,7 @@ class MyAI( AI ):
 		print(tileCovered)
 		"""
 
-		return tileCovered
+		return neighbours
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
