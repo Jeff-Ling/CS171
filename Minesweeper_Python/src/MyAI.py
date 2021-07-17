@@ -189,7 +189,7 @@ class MyAI( AI ):
 
 		if len(self.hintTiles) != 0:
 			for i in self.hintTiles:
-				neighbours = self.findNeighbour(i.x, i.y)
+				neighbours = self.findNeighbours(i.x, i.y)
 
 				neighbours_covered = list()
 				for tile in neighbours:
@@ -223,6 +223,7 @@ class MyAI( AI ):
 		for neighbour_x in range (x - 1, x + 2):
 			for neighbour_y in range (y - 1, y + 2):
 				if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and (x != neighbour_x and y != neighbour_y):
+					print([neighbour_x, neighbour_y])
 					neighbours.append(self.tiles[self.rowDimension - neighbour_y][neighbour_x])
 
 		print("Check Coord")
