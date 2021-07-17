@@ -180,7 +180,7 @@ class MyAI( AI ):
 			"""
 			print("So Far So Good! (l_179)")
 			self.whenToLeaveCounter -= 1
-			return Action(AI.Action.UNCOVER, self.curTile.x, self.curtile.y)
+			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         # Flag every tiles that are mines
 		#if (len(self.flaggedTiles) != 0):
