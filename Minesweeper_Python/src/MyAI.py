@@ -19,7 +19,7 @@ from Action import Action
 
 class Tile():
 	
-	def _init_(self, x:int, y:int, hint:int = "."):
+	def __init__(self, x:int, y:int, hint:int = "."):
 		self.x = x
 		self.y = y
 		self.hint = hint
@@ -83,9 +83,9 @@ class MyAI( AI ):
 			for col in range(colDimension):
 				tileRow.append(Tile(col, row))
 			self.tiles.append(tileRow)
-		
-		# Every tile is UNEXPLORED yet
-		for row in tiles:
+
+        # Every tile is UNEXPLORED yet
+        for row in self.tiles:
 			for tile in row:
 				self.unexploredTiles.append(tile)
 
@@ -177,12 +177,12 @@ class MyAI( AI ):
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curtile.y)
 
-		# Flag every tiles that are mines
-		#if (len(self.flaggedTiles) != 0):
-		#	self.curTile = self.flaggedTiles.pop()
-		#	return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
+        """# Flag every tiles that are mines
+		if (len(self.flaggedTiles) != 0):
+			self.curTile = self.flaggedTiles.pop()
+			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)"""
 
-		if (len(self.hintTiles) != 0):
+		if len(self.hintTiles) != 0:
 			for i in self.hintTiles:
 				neighbours = self.findNeighbour(i.x, i.y)
 
