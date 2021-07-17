@@ -197,7 +197,7 @@ class MyAI( AI ):
 					'''self.unexploredTiles.remove([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.flaggedTiles.append([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.needUncover = [] + self.unexploredTiles'''
-					#return Action(AI.Action.FLAG, y.x, y.y)
+					return Action(AI.Action.FLAG, y.x, y.y)
 
 		# Flag every tiles that are mines
 		if (len(self.flaggedTiles) != 0):
