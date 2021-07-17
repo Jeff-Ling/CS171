@@ -85,7 +85,7 @@ class MyAI( AI ):
 			self.tiles.append(tileRow)
 
         # Every tile is UNEXPLORED yet
-        for row in self.tiles:
+		for row in self.tiles:
 			for tile in row:
 				self.unexploredTiles.append(tile)
 
