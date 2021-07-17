@@ -51,7 +51,7 @@ class MyAI( AI ):
 
 		'''self.previousX = 0
 		self.previousY = 0'''
-		self.curTile = Tile()
+		self.curTile = Tile(startX, startY)
 
 		self.whenToLeaveCounter = rowDimension * colDimension - totalMines
 
