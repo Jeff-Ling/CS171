@@ -83,9 +83,9 @@ class MyAI( AI ):
 			for col in range(colDimension):
 				tileRow.append(Tile(loc=(col, row)))
 			self.tiles.append(tileRow)
-
-        # Every tile is UNEXPLORED yet
-        for row in self.tiles:
+		
+		# Every tile is UNEXPLORED yet
+		for row in tiles:
 			for tile in row:
 				self.unexploredTiles.append(tile)
 
