@@ -120,7 +120,7 @@ class MyAI( AI ):
 
 		if (number == 0):
 			# Append uncovered tiles to list
-			print ("So Far So Good!")
+			print ("So Far So Good! (123)")
 			self.curTile.setHint(number)
 			self.safeTiles.append(self.curTile)
 
@@ -176,6 +176,7 @@ class MyAI( AI ):
 			print (self.hintTiles)
 			
 			self.needUncover.pop(0)"""
+			print("So Far So Good! (179)")
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curtile.y)
 
