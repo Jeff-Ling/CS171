@@ -56,7 +56,7 @@ class MyAI( AI ):
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
-
+		
 		
 	def getAction(self, number: int) -> "Action Object":
 
@@ -117,7 +117,6 @@ class MyAI( AI ):
 			# Remove the tiles from unexplored tiles list
 			self.unexploredTiles.remove([self.previousX, self.previousY])
 
-
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
 			self.previousX = self.needUncover[0][0]
@@ -148,7 +147,6 @@ class MyAI( AI ):
 				self.flaggedTiles.append([neighbours_covered[0][0], neighbours_covered[0][1]])
 				self.needUncover = [] + self.unexploredTiles
 				return Action(AI.Action.FLAG, neighbours_covered[0][0], neighbours_covered[0][1])
-				
 		
 	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
 	def findNeighbours (self, x, y) -> list:
