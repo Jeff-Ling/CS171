@@ -144,7 +144,7 @@ class MyAI( AI ):
 			# Ensure action in bound
 			for tile in tilesAroundCurrent:
 				#f = e + [1] # 1 is hint
-
+				print (tile.x, tile.y)
 				if tile.x >= 0 and tile.x <= self.rowDimension and tile.y >= 0 and tile.y <= self.colDimension and tile not in self.needUncover and tile not in self.hintTiles and tile not in self.safeTiles:
 					self.needUncover.append(tile)
 				"""
@@ -175,7 +175,8 @@ class MyAI( AI ):
 			print ("hintTiles:")
 			print (self.hintTiles)
 			
-			self.needUncover.pop(0)"""
+			self.needUncover.pop(0)
+			"""
 			print("So Far So Good! (l_179)")
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curtile.y)
