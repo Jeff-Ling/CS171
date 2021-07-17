@@ -81,7 +81,7 @@ class MyAI( AI ):
 		for row in reversed(range(rowDimension)):
 			tileRow = list()
 			for col in range(colDimension):
-				tileRow.append(Tile(loc=(col, row)))
+				tileRow.append(Tile(col, row))
 			self.tiles.append(tileRow)
 		
 		# Every tile is UNEXPLORED yet
