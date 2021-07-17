@@ -78,16 +78,16 @@ class MyAI( AI ):
 			self.unexploredTiles.append(tile)'''
 			
 		# Reverse the range because the row is counted from the bottom
-        for row in reversed(range(rowDimension)):
-            tileRow = list()
-            for col in range(colDimension):
-                tileRow.append(Tile(loc=(col, row)))
-            self.tiles.append(tileRow)
+		for row in reversed(range(rowDimension)):
+			tileRow = list()
+			for col in range(colDimension):
+				tileRow.append(Tile(loc=(col, row)))
+			self.tiles.append(tileRow)
 
         # Every tile is UNEXPLORED yet
         for row in self.tiles:
-            for tile in row:
-                self.unexploredTiles.append(tile)
+			for tile in row:
+				self.unexploredTiles.append(tile)
 
 		########################################################################
 		#							YOUR CODE ENDS							   #
