@@ -110,10 +110,9 @@ class MyAI( AI ):
 			self.curTile = self.tiles[self.rowDimension - self.startY][self.startX]
 			"""self.previousX = self.startX
 			self.previousY = self.startY
-			
 			print ([self.startX, self.startY])
-			print ("Finish first time")
 			"""
+			print ("Finish first time")
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
@@ -198,7 +197,7 @@ class MyAI( AI ):
 					'''self.unexploredTiles.remove([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.flaggedTiles.append([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.needUncover = [] + self.unexploredTiles'''
-					return Action(AI.Action.FLAG, y.x, y.y)
+					#return Action(AI.Action.FLAG, y.x, y.y)
 
 		# Flag every tiles that are mines
 		if (len(self.flaggedTiles) != 0):
