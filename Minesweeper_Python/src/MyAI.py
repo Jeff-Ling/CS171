@@ -251,7 +251,7 @@ class MyAI( AI ):
 		"""for e in tilesAround:
 			if e in self.unexploredTiles:
 				neighbours.append(e)"""
-		
+		print([self.rowDimension - y - 1, x])
 		for tile in tilesAround:
 			print([tile.x, tile.y])
 
