@@ -87,21 +87,21 @@ class MyAI( AI ):
 			self.unexploredTiles.remove([self.previousX, self.previousY])
 
 			# Uncover all tiles around safe tile
-			tilesArountCurrent = self.findNeighbours(self.previousX, self.previousY)
+			tilesAroundCurrent = self.findNeighbours(self.previousX, self.previousY)
 			"""
-			tilesArountCurrent = []
-			tilesArountCurrent.append([self.previousX, self.previousY + 1])
-			tilesArountCurrent.append([self.previousX, self.previousY - 1])
-			tilesArountCurrent.append([self.previousX + 1, self.previousY])
-			tilesArountCurrent.append([self.previousX + 1, self.previousY + 1])
-			tilesArountCurrent.append([self.previousX + 1, self.previousY - 1])
-			tilesArountCurrent.append([self.previousX - 1, self.previousY])
-			tilesArountCurrent.append([self.previousX - 1, self.previousY + 1])
-			tilesArountCurrent.append([self.previousX - 1, self.previousY - 1])
+			tilesAroundCurrent = []
+			tilesAroundCurrent.append([self.previousX, self.previousY + 1])
+			tilesAroundCurrent.append([self.previousX, self.previousY - 1])
+			tilesAroundCurrent.append([self.previousX + 1, self.previousY])
+			tilesAroundCurrent.append([self.previousX + 1, self.previousY + 1])
+			tilesAroundCurrent.append([self.previousX + 1, self.previousY - 1])
+			tilesAroundCurrent.append([self.previousX - 1, self.previousY])
+			tilesAroundCurrent.append([self.previousX - 1, self.previousY + 1])
+			tilesAroundCurrent.append([self.previousX - 1, self.previousY - 1])
 			"""
 
 			# Ensure action in bound
-			for e in tilesArountCurrent:
+			for e in tilesAroundCurrent:
 				f = e + [1] # 1 is hint
 
 				if e[0] >= 0 and e[0] <= self.rowDimension and e[1] >= 0 and e[1] <= self.colDimension and e not in self.needUncover and f not in self.hintTiles and e not in self.safeTiles:
