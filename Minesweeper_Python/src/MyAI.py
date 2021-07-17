@@ -88,7 +88,8 @@ class MyAI( AI ):
 
 			# Uncover all tiles around safe tile
 			tilesArountCurrent = self.findNeighbours(self.previousX, self.previousY)
-			'''tilesArountCurrent = []
+			"""
+			tilesArountCurrent = []
 			tilesArountCurrent.append([self.previousX, self.previousY + 1])
 			tilesArountCurrent.append([self.previousX, self.previousY - 1])
 			tilesArountCurrent.append([self.previousX + 1, self.previousY])
@@ -96,7 +97,8 @@ class MyAI( AI ):
 			tilesArountCurrent.append([self.previousX + 1, self.previousY - 1])
 			tilesArountCurrent.append([self.previousX - 1, self.previousY])
 			tilesArountCurrent.append([self.previousX - 1, self.previousY + 1])
-			tilesArountCurrent.append([self.previousX - 1, self.previousY - 1])'''
+			tilesArountCurrent.append([self.previousX - 1, self.previousY - 1])
+			"""
 
 			# Ensure action in bound
 			for e in tilesArountCurrent:
@@ -104,8 +106,10 @@ class MyAI( AI ):
 
 				if e[0] >= 0 and e[0] <= self.rowDimension and e[1] >= 0 and e[1] <= self.colDimension and e not in self.needUncover and f not in self.hintTiles and e not in self.safeTiles:
 					self.needUncover.append(e)
-				#if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
-					#self.needUncover.remove(e)
+				"""
+				if e[0] < 0 or e[0] > self.rowDimension or e[1] < 0 or e[1] > self.colDimension or e in self.safeTiles or f in self.hintTiles:
+					self.needUncover.remove(e)
+				"""
 				
 		elif (number >= 1):
 			self.hintTiles.append([self.previousX, self.previousY, number])
@@ -161,8 +165,8 @@ class MyAI( AI ):
 				if 0 <= neighbour_x <= self.rowDimension and 0 <= y <= self.colDimension and (x != neighbour_x and y != neighbour_y):
 					neighbours.append([neighbour_x, neighbour_y])
 		
-		
-		'''tilesAround = []
+		"""
+		tilesAround = []
 		tilesAround.append([x, y + 1])
 		tilesAround.append([x, y - 1])
 		tilesAround.append([x + 1, y])
@@ -175,7 +179,8 @@ class MyAI( AI ):
 		for e in tilesAround:
 			if e in self.unexploredTiles:
 				neighbours.append(e)
-		'''
+		"""
+
 		"""
 		print("tilesAround:")
 		print(tilesAround)
