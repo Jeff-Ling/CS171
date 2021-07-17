@@ -113,6 +113,7 @@ class MyAI( AI ):
 			print ([self.startX, self.startY])
 			"""
 			print ("Finish first time")
+			print (self.curTile.x, self.curTile.y)
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
