@@ -226,6 +226,7 @@ class MyAI( AI ):
 					neighbours.append(self.tiles[self.rowDimension - y][x])
 				print("So Far So Good! (l_227)")
 				print (neighbour_x, neighbour_y)
+
 		"""
 		tilesAround = []
 		tilesAround.append([x, y + 1])
