@@ -251,6 +251,7 @@ class MyAI( AI ):
 		"""for e in tilesAround:
 			if e in self.unexploredTiles:
 				neighbours.append(e)"""
+		print("Check RAW")
 		print([self.rowDimension - y - 1, x])
 		print([self.rowDimension - y + 1, x])
 		print([self.rowDimension - y, x + 1])
@@ -259,6 +260,7 @@ class MyAI( AI ):
 		print([self.rowDimension - y, x - 1])
 		print([self.rowDimension - y - 1, x - 1])
 		print([self.rowDimension - y + 1, x - 1])
+		print("Check Coord")
 		for tile in tilesAround:
 			print([tile.x, tile.y])
 
