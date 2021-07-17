@@ -177,10 +177,12 @@ class MyAI( AI ):
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curtile.y)
 
-        '''# Flag every tiles that are mines
+        """
+		Flag every tiles that are mines
 		if (len(self.flaggedTiles) != 0):
 			self.curTile = self.flaggedTiles.pop()
-			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)'''
+			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
+		"""
 
 		if (len(self.hintTiles) != 0):
 			for i in self.hintTiles:
