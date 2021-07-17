@@ -120,6 +120,7 @@ class MyAI( AI ):
 
 		if (number == 0):
 			# Append uncovered tiles to list
+			print ("So Far So Good!")
 			self.curTile.setHint(number)
 			self.safeTiles.append(self.curTile)
 
