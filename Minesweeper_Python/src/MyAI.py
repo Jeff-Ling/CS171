@@ -225,7 +225,9 @@ class MyAI( AI ):
 				if 0 <= neighbour_x <= self.rowDimension and 0 <= y <= self.colDimension and (x != neighbour_x and y != neighbour_y):
 					neighbours.append(self.tiles[self.rowDimension - y][x])
 				print("So Far So Good! (l_227)")
-				print (neighbour_x, neighbour_y)
+		
+		for tile in neighbours:
+			print([tile.x, tile.y])
 
 		"""
 		tilesAround = []
