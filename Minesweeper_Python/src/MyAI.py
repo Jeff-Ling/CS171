@@ -218,7 +218,7 @@ class MyAI( AI ):
 			self.tilesCoveredAroundCurrent.append([x, y])
 		return tileCovered
 		"""
-		neighbours = []
+		"""neighbours = []
 
 		for neighbour_x in range (x - 1, x + 2):
 			for neighbour_y in range (y - 1, y + 2):
@@ -231,22 +231,32 @@ class MyAI( AI ):
 
 		"""
 		tilesAround = []
-		tilesAround.append([x, y + 1])
+		neighbours = []
+		tilesAround.append(self.tiles[self.rowDimension - y - 1][x])
+		tilesAround.append(self.tiles[self.rowDimension - y + 1][x])
+		tilesAround.append(self.tiles[self.rowDimension - y][x + 1])
+		tilesAround.append(self.tiles[self.rowDimension - y - 1][x + 1])
+		tilesAround.append(self.tiles[self.rowDimension - y + 1][x + 1])
+		tilesAround.append(self.tiles[self.rowDimension - y][x - 1])
+		tilesAround.append(self.tiles[self.rowDimension - y - 1][x - 1])
+		tilesAround.append(self.tiles[self.rowDimension - y + 1][x - 1])
+		"""tilesAround.append([x, y + 1])
 		tilesAround.append([x, y - 1])
 		tilesAround.append([x + 1, y])
 		tilesAround.append([x + 1, y + 1])
 		tilesAround.append([x + 1, y - 1])
 		tilesAround.append([x - 1, y])
 		tilesAround.append([x - 1, y + 1])
-		tilesAround.append([x - 1, y - 1])
+		tilesAround.append([x - 1, y - 1])"""
 
 		for e in tilesAround:
 			if e in self.unexploredTiles:
 				neighbours.append(e)
-		"""
 
-		"""
-		print("tilesAround:")
+		for tile in neighbours:
+			print([tile.x, tile.y])
+
+		"""print("tilesAround:")
 		print(tilesAround)
 		print("tileCovered:")
 		print(tileCovered)
