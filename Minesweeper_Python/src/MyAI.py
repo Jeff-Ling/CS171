@@ -55,6 +55,7 @@ class MyAI( AI ):
 		self.curTile = Tile(startX, startY)
 
 		self.whenToLeaveCounter = rowDimension * colDimension - totalMines
+		self.numMines = 0
 
 		self.firstStep = True
 
@@ -105,9 +106,14 @@ class MyAI( AI ):
 		# Edited by Y. Song and J. Ling at 2021.07.10
 		
 		if (self.whenToLeaveCounter == 0):
-			return Action(AI.Action.LEAVE)		
+			return Action(AI.Action.LEAVE)	
 
-		if (self.firstStep == True):
+		# If we find all mines, then the rest of unexplored tiles are all safe.
+		if (self.numMines == self.totalMines):
+			self.needUncover += self.unexploredTiles
+			self.unexploredTiles.clear()
+
+		if self.firstStep:
 			self.firstStep = False
 
 			self.curTile = self.tiles[self.rowDimension - self.startY][self.startX]
@@ -162,8 +168,8 @@ class MyAI( AI ):
 			self.unexploredTiles.remove(self.curTile)
 
 		# Try to solve the situation when hint > 1
-		if tile.getNumber() == len(flaggedTiles) and len(unexploredTiles) != 0:
-			self.safeTiles.extend(unexploredTiles)
+		if tile.getNumber() == len(self.flaggedTiles) and len(self.unexploredTiles) != 0:
+			self.safeTiles.extend(self.unexploredTiles)
 			self.curTile = self.safeTiles.pop()
 			self.exploreTile(self.curTile)
 			return Action(AI.Action.UNCOVER, self.__curTile.x, self.__curTile.y)
@@ -172,6 +178,8 @@ class MyAI( AI ):
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
 			self.curTile = self.needUncover.pop()
+			self.whenToLeaveCounter -= 1
+			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 			"""
 			self.previousX = self.needUncover[0][0]
 			self.previousY = self.needUncover[0][1]
@@ -186,8 +194,7 @@ class MyAI( AI ):
 			
 			self.needUncover.pop(0)
 			"""
-			self.whenToLeaveCounter -= 1
-			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
+
 
         # Flag every tiles that are mines
 		#if (len(self.flaggedTiles) != 0):
@@ -197,7 +204,6 @@ class MyAI( AI ):
 		if len(self.hintTiles) != 0:
 			for i in self.hintTiles:
 				neighbours = self.findNeighbours(i.x, i.y)
-
 				neighbours_covered = list()
 				for tile in neighbours:
 					if tile in self.unexploredTiles:
@@ -212,14 +218,15 @@ class MyAI( AI ):
 					self.flaggedTiles.append([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.needUncover = [] + self.unexploredTiles
 					"""
-					return Action(AI.Action.FLAG, y.x, y.y)
+					#return Action(AI.Action.FLAG, y.x, y.y)
 
 		# Flag every tiles that are mines
 		if (len(self.flaggedTiles) != 0):
 			self.curTile = self.flaggedTiles.pop()
+			self.numMines += 1
 			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)	
 		
-	# Helper Function: Return a list that contains the coordinate which is covered around (x,y)
+	# Helper Function: Return a list of tile that contains the coordinate which is covered around (x,y)
 	def findNeighbours (self, x, y) -> list:
 		
 		neighbours = []
@@ -229,6 +236,7 @@ class MyAI( AI ):
 				if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and not(x == neighbour_x and y == neighbour_y):
 					neighbours.append(self.tiles[self.rowDimension - neighbour_y][neighbour_x])
 		
+		return neighbours
 		"""
 		tilesAround.append([x, y + 1])
 		tilesAround.append([x, y - 1])
@@ -252,8 +260,6 @@ class MyAI( AI ):
 		print("tileCovered:")
 		print(tileCovered)
 		"""
-
-		return neighbours
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
