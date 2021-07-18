@@ -161,6 +161,13 @@ class MyAI( AI ):
 			# Remove the tiles from unexplored tiles list
 			self.unexploredTiles.remove(self.curTile)
 
+		# Try to solve the situation when hint > 1
+		if tile.getNumber() == len(flaggedTiles) and len(unexploredTiles) != 0:
+			self.safeTiles.extend(unexploredTiles)
+			self.curTile = self.safeTiles.pop()
+			self.exploreTile(self.curTile)
+			return Action(AI.Action.UNCOVER, self.__curTile.x, self.__curTile.y)
+
 
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
