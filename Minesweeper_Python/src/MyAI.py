@@ -201,9 +201,9 @@ class MyAI( AI ):
 
 		# Uncover every tiles that are able to click
 		if (len(self.needUncover) != 0):
+			print("Need Uncover Tiles List")
 			for tile in self.needUncover:
-				print("Need Uncover Tiles List")
-				print([tile.x, tile.y])
+				print([tile.x+1, tile.y+1])
 			self.curTile = self.needUncover.pop()
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
@@ -249,9 +249,9 @@ class MyAI( AI ):
 
 		# Flag every tiles that are mines
 		if (len(self.flaggedTiles) != 0):
+			print("Flagged Tiles List")
 			for tile in self.flaggedTiles:
-				print("Flagged Tiles List")
-				print([tile.x, tile.y])
+				print([tile.x+1, tile.y+1])
 			self.curTile = self.flaggedTiles.pop()
 			self.numMines += 1
 			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
@@ -267,6 +267,8 @@ class MyAI( AI ):
 
 			for neighbor in neighbours:
 				if neighbor.getHint() == ".":
+					print("Frontier is true")
+					print("added neighbor" + [neighbor.x, neighbor.y])
 					frontier = True
 					suspectTile.append(neighbor)
 					
