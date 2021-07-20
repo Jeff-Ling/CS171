@@ -267,7 +267,7 @@ class MyAI( AI ):
 			#print("Current Tile" + str([tile.x + 1, tile.y + 1]))
 
 			for neighbor in neighbours:
-				print("Neighbor" + str([neighbor.x + 1, neighbor.y + 1]))
+				#print("Neighbor" + str([neighbor.x + 1, neighbor.y + 1]))
 				if neighbor.getHint() == ".":
 					"""print("Frontier is true")
 					print("added neighbor" + str([neighbor.x + 1, neighbor.y + 1]))"""
@@ -282,6 +282,7 @@ class MyAI( AI ):
 				#print("New constrain added")
 
 		constrains = self.solveConstrain(constrains)
+		print("CSP is complete")
 		extracted = self.extract(constrains)
 
 		for constrain in extracted:
