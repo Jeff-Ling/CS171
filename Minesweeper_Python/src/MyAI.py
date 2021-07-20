@@ -366,10 +366,12 @@ class MyAI( AI ):
 					'''for tile in cs.suspectTile:
 						self.needUncover.append(tile)'''
 
-				CON = ""
-				for tile in constrains.suspectTile:
-					CON += str([tile.x + 1, tile.y + 1])
-				print(CON)
+				for cs3 in constrains:
+					CON = ""
+					for tile in cs3.suspectTile:
+						CON += str([tile.x + 1, tile.y + 1])
+					CON += str(cs3.hint)
+					print(CON)
 				print()
 				print()
 
