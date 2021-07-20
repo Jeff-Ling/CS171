@@ -264,6 +264,7 @@ class MyAI( AI ):
 			flagTile_counter = 0
 			neighbours = self.findNeighbours(tile.x, tile.y)
 			suspectTile = []
+			print("Current Tile" + str([tile.x + 1, tile.y + 1]))
 
 			for neighbor in neighbours:
 				if neighbor.getHint() == ".":
