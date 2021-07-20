@@ -281,7 +281,15 @@ class MyAI( AI ):
 				constrains.append(constrain)
 				#print("New constrain added")
 
-		self.solveConstrain(constrains)
+		constrains = self.solveConstrain(constrains)
+		extracted = self.extract(constrains)
+
+		for constrain in extracted:
+			if constrain.hint == 1:
+				self.flaggedTiles.extend(constrain.suspectTile)
+
+			elif constrain.hint == 0:
+				self.needUncover.extend(constrain.suspectTile)
 
 		if self.needUncover:
 			self.curTile = self.needUncover.pop()
@@ -305,19 +313,19 @@ class MyAI( AI ):
 	def solveConstrain(self, constrains):
 
 		for cs1 in constrains:
-			print("CS1:")
+			"""print("CS1:")
 			CS1 = ""
 			for tile in cs1.suspectTile:
 				CS1 += str([tile.x + 1, tile.y + 1])
-			print(CS1)
-			
+			print(CS1)"""
+
 			for cs2 in constrains:
 
-				print("CS2:")
+				"""print("CS2:")
 				CS2 = ""
 				for tile2 in cs2.suspectTile:
 					CS2 += str([tile2.x + 1, tile.y + 1])
-				print(CS2)
+				print(CS2)"""
 
 				cs = cs1.compare(cs2)
 
@@ -325,12 +333,31 @@ class MyAI( AI ):
 					constrains.append(cs)
 
 				if len(cs.suspectTile) == cs.hint:
-					for tile in cs.suspectTile:
-						self.flaggedTiles.append(tile)
+					for i in range(len(cs.suspectTile)):
+						cs_new = Constrain([cs.suspecTile[i], 1])
+						if cs_new not in constrains and cs_new.suspectTile:
+							constrains.append(cs_new)
+
+					'''for tile in cs.suspectTile:
+						self.flaggedTiles.append(tile)'''
 
 				if len(cs.suspectTile) > 0 and cs.hint == 0:
-					for tile in cs.suspectTile:
-						self.needUncover.append(tile)
+					for i in range(len(cs.suspectTile)):
+						cs_new = Constrain([cs.suspecTile[i], 0])
+						if cs_new not in constrains and cs_new.suspectTile:
+							constrains.append(cs_new)
+					'''for tile in cs.suspectTile:
+						self.needUncover.append(tile)'''
+
+		return constrains
+
+	def extract(self, constrains):
+		extractred = list()
+		for constrain in constrains:
+			if len(constrain.suspectTile) == 1:
+				extractred.append(constrain)
+		return extractred
+					
 
 
 		########################################################################
