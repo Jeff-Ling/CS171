@@ -314,19 +314,19 @@ class MyAI( AI ):
 	def solveConstrain(self, constrains):
 
 		for cs1 in constrains:
-			"""print("CS1:")
+			print("CS1:")
 			CS1 = ""
 			for tile in cs1.suspectTile:
 				CS1 += str([tile.x + 1, tile.y + 1])
-			print(CS1)"""
+			print(CS1)
 
 			for cs2 in constrains:
 
-				"""print("CS2:")
+				print("CS2:")
 				CS2 = ""
 				for tile2 in cs2.suspectTile:
 					CS2 += str([tile2.x + 1, tile.y + 1])
-				print(CS2)"""
+				print(CS2)
 
 				cs = cs1.compare(cs2)
 
