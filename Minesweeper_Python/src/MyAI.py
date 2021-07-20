@@ -383,8 +383,6 @@ class MyAI( AI ):
 			if len(constrain.suspectTile) == 1:
 				extractred.append(constrain)
 		return extractred
-					
-
 
 		########################################################################
 		#							YOUR CODE ENDS							   #
