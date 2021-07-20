@@ -334,7 +334,7 @@ class MyAI( AI ):
 
 				if len(cs.suspectTile) == cs.hint:
 					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspecTile[i], 1])
+						cs_new = Constrain([cs.suspectTile[i], 1])
 						if cs_new not in constrains and cs_new.suspectTile:
 							constrains.append(cs_new)
 
