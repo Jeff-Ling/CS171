@@ -268,7 +268,7 @@ class MyAI( AI ):
 			for neighbor in neighbours:
 				if neighbor.getHint() == ".":
 					print("Frontier is true")
-					print("added neighbor" + [neighbor.x, neighbor.y])
+					print("added neighbor" + str([neighbor.x, neighbor.y]))
 					frontier = True
 					suspectTile.append(neighbor)
 					
