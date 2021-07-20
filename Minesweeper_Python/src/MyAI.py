@@ -275,14 +275,17 @@ class MyAI( AI ):
 			CON += str(cs3.hint)
 			print(CON)
 
+		for tile in self.flaggedTiles:
+			print([tile.x+1, tile.y+1])
+
 
 		for constrain in extracted:
 			if constrain.hint == 1 and constrain.suspectTile[0] not in self.flaggedTiles:
-				print("Append to flag tile" + str([constrain.suspectTile[0].x, constrain.suspectTile[0].y]))
+				print("Append to flag tile" + str([constrain.suspectTile[0].x + 1, constrain.suspectTile[0].y + 1]))
 				self.flaggedTiles.append(constrain.suspectTile[0])
 
 			elif constrain.hint == 0 and constrain.suspectTile[0] not in self.needUncover:
-				print("Append to safe tile" + str([constrain.suspectTile[0].x, constrain.suspectTile[0].y]))
+				print("Append to safe tile" + str([constrain.suspectTile[0].x + 1, constrain.suspectTile[0].y + 1]))
 				self.needUncover.append(constrain.suspectTile[0])
 
 		if self.needUncover:
