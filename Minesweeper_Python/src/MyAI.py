@@ -270,10 +270,10 @@ class MyAI( AI ):
 
 
 		for constrain in extracted:
-			if constrain.hint == 1:
+			if constrain.hint == 1 and constrain.suspectTile[0] not in self.flaggedTiles:
 				self.flaggedTiles.extend(constrain.suspectTile)
 
-			elif constrain.hint == 0:
+			elif constrain.hint == 0 and constrain.suspectTile[0] not in self.needUncover:
 				self.needUncover.extend(constrain.suspectTile)
 
 		if self.needUncover:
