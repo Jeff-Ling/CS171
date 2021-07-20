@@ -278,10 +278,12 @@ class MyAI( AI ):
 
 		for constrain in extracted:
 			if constrain.hint == 1 and constrain.suspectTile[0] not in self.flaggedTiles:
-				self.flaggedTiles.extend(constrain.suspectTile)
+				print("Append to flag tile" + str([constrain.suspectTile[0].x, constrain.suspectTile[0].y]))
+				self.flaggedTiles.append(constrain.suspectTile[0])
 
 			elif constrain.hint == 0 and constrain.suspectTile[0] not in self.needUncover:
-				self.needUncover.extend(constrain.suspectTile)
+				print("Append to safe tile" + str([constrain.suspectTile[0].x, constrain.suspectTile[0].y]))
+				self.needUncover.append(constrain.suspectTile[0])
 
 		if self.needUncover:
 			self.curTile = self.needUncover.pop()
