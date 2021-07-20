@@ -279,8 +279,9 @@ class MyAI( AI ):
 			if frontier and tile.getHint() != -1:
 				constrain = Constrain(suspectTile, tile.getHint() - flagTile_counter)
 				constrains.append(constrain)
+				print("New constrain added")
 			
-			self.solveConstrain(constrains)
+		self.solveConstrain(constrains)
 
 		if self.needUncover:
 			self.curTile = self.needUncover.pop()
