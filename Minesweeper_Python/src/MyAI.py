@@ -32,6 +32,31 @@ class Tile():
 	def setHint(self, num:int):
 		self.hint = num
 
+class Constrain():
+
+	def __init__(self, suspectTile = [], hint = 0):
+		self.suspectTile = suspectTile
+		self.hint = hint
+
+	def compare(self, another_constrain):
+		new_constrain = Constrain()
+
+		issubset = True
+
+		this_constrain = self
+
+		for variable in set(this_constrain.suspectTile):
+			if variable not in set(another_constrain.suspectTile):
+				issubset = False
+				break
+
+		if issubset:
+			new_constrain.suspectTile = list(set(another_constrain.suspectTile) - set(this_constrain.suspectTile))
+			new_constrain.hint = another_constrain.hint - this_constrain.hint
+
+		return new_constrain
+
+
 
 class MyAI( AI ):
 
@@ -48,10 +73,6 @@ class MyAI( AI ):
 		self.startX = startX
 		self.startY = startY
 
-		"""
-		self.previousX = 0
-		self.previousY = 0
-		"""
 		self.curTile = Tile(startX, startY)
 
 		self.whenToLeaveCounter = rowDimension * colDimension - totalMines
@@ -66,10 +87,11 @@ class MyAI( AI ):
 
 		# Covered Tiles
 		self.unexploredTiles = list()
+
+		# A list contains all tiles
 		self.tiles = list()
 
 		self.needUncover = list()
-		self.tilesCoveredAroundCurrent = list()
 
 		"""
 		for row in range(0, rowDimension):
@@ -128,9 +150,11 @@ class MyAI( AI ):
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
+		self.curTile.setHint(number)
+
 		if (number == 0):
 			# Append uncovered tiles to list
-			self.curTile.setHint(number)
+			#self.curTile.setHint(number)
 			self.safeTiles.append(self.curTile)
 
 			# Remove the tiles from unexplored tiles list
@@ -161,7 +185,7 @@ class MyAI( AI ):
 				"""
 				
 		elif (number >= 1):
-			self.curTile.setHint(number)
+			#self.curTile.setHint(number)
 			self.hintTiles.append(self.curTile)
 
 			# Remove the tiles from unexplored tiles list
@@ -224,7 +248,31 @@ class MyAI( AI ):
 		if (len(self.flaggedTiles) != 0):
 			self.curTile = self.flaggedTiles.pop()
 			self.numMines += 1
-			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)	
+			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
+
+		# CSP Part
+		constrains = []
+
+		for tile in self.hintTiles:
+			frontier = False
+			flagTile_counter = 0
+			neighbours = self.findNeighbours(tile.x, tile.y)
+			suspectTile = []
+
+			for neighbor in neighbours:
+				if neighbor.getHint() == ".":
+					frontier = True
+					suspectTile.append(neighbor)
+					
+				if neighbor.getHint() == -1:
+					flagTile_counter += 1
+				
+			if frontier and tile.getHint() != -1:
+				constrain = Constrain(suspectTile, tile.getHint() - flagTile_counter)
+				constrains.append(constrain)
+			
+			self.solveConstrain(constrains)
+
 		
 	# Helper Function: Return a list of tile that contains the coordinate which is covered around (x,y)
 	def findNeighbours (self, x, y) -> list:
@@ -260,6 +308,27 @@ class MyAI( AI ):
 		print("tileCovered:")
 		print(tileCovered)
 		"""
+
+
+	def solveConstrain(self, constrains):
+
+		for cs1 in constrains:
+			for cs2 in constrains:
+
+				cs = cs1.compare(cs2)
+
+				if cs not in constrains and len(cs.suspectTile) != 0:
+					constrains.append(cs)
+
+				if len(cs.suspectTile) == cs.hint:
+					for tile in cs.suspectTile:
+						self.flaggedTiles.append(tile)
+
+				if len(cs.suspectTile) > 0 and cs.hint == 0:
+					for tile in cs.suspectTile:
+						self.needUncover.append(tile)
+
+
 		########################################################################
 		#							YOUR CODE ENDS							   #
 		########################################################################
