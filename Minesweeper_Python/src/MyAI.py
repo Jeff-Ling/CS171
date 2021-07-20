@@ -14,6 +14,7 @@
 
 from AI import AI
 from Action import Action
+from collections import Counter
 
 #import re
 
@@ -37,6 +38,13 @@ class Constrain():
 	def __init__(self, suspectTile = [], hint = 0):
 		self.suspectTile = suspectTile
 		self.hint = hint
+
+	def __eq__(self, another_constrain):
+		def compare(x, y): return Counter(x) == Counter(y)
+		if compare(self.suspectTile, another_constrain.suspectTile) and self.hint == another_constrain.hint:
+			return True
+		else:
+			return False
 
 	def compare(self, another_constrain):
 		new_constrain = Constrain()
@@ -315,35 +323,31 @@ class MyAI( AI ):
 	def solveConstrain(self, constrains):
 
 		for cs1 in constrains:
-			print("CS1:" + str(cs1.hint))
+			'''print("CS1:" + str(cs1.hint))
 			CS1 = ""
 			for tile in cs1.suspectTile:
 				CS1 += str([tile.x + 1, tile.y + 1])
-			print(CS1)
+			print(CS1)'''
 
 			for cs2 in constrains:
 
-				print("CS2:" + str(cs2.hint))
+				'''print("CS2:" + str(cs2.hint))
 				CS2 = ""
 				for tile2 in cs2.suspectTile:
-					"""
-					CS2X = tile2.x + 1
-					CS2Y = tile2.y + 1
-					CS2 += "[" + str(CS2X) + ", " + str(CS2Y) + "]"
-					"""
 					CS2 += str([tile2.x + 1, tile2.y + 1])
-				print(CS2)
+				print(CS2)'''
 
 				cs = cs1.compare(cs2)
-				print("NEW CS:" + str(cs.hint))
+				
+				'''print("NEW CS:" + str(cs.hint))
 				NEW_CS = ""
 				for new_tile in cs.suspectTile:
 					NEW_CS += str([new_tile.x + 1, new_tile.y + 1])
-				print(NEW_CS)
+				print(NEW_CS)'''
 
 				if cs not in constrains and len(cs.suspectTile) != 0:
 					constrains.append(cs)
-					print("CS append into constrains")
+					#print("CS append into constrains")
 
 				if len(cs.suspectTile) == cs.hint:
 					for i in range(len(cs.suspectTile)):
@@ -362,6 +366,10 @@ class MyAI( AI ):
 					'''for tile in cs.suspectTile:
 						self.needUncover.append(tile)'''
 
+				CON = ""
+				for tile in constrains.suspectTile:
+					CON += str([tile.x + 1, tile.y + 1])
+				print(CON)
 				print()
 				print()
 
