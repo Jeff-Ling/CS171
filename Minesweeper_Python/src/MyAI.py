@@ -349,24 +349,6 @@ class MyAI( AI ):
 					constrains.append(cs)
 					#print("CS append into constrains")
 
-				if len(cs.suspectTile) == cs.hint:
-					'''for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i]], 1)
-						if cs_new not in constrains and cs_new.suspectTile:
-							constrains.append(cs_new)'''
-
-					for tile in cs.suspectTile:
-						if tile not in self.flaggedTiles:
-							self.flaggedTiles.append(tile)
-
-				if len(cs.suspectTile) > 0 and cs.hint == 0:
-					'''for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i]], 0)
-						if cs_new not in constrains and cs_new.suspectTile:
-							constrains.append(cs_new)'''
-					for tile in cs.suspectTile:
-						if tile not in self.needUncover:
-							self.needUncover.append(tile)
 
 				for cs3 in constrains:
 					CON = ""
@@ -376,6 +358,26 @@ class MyAI( AI ):
 					print(CON)
 				print()
 				print()
+		
+		for cs in constrains:
+			if len(cs.suspectTile) == cs.hint:
+				'''for i in range(len(cs.suspectTile)):
+					cs_new = Constrain([cs.suspectTile[i]], 1)
+					if cs_new not in constrains and cs_new.suspectTile:
+						constrains.append(cs_new)'''
+
+				for tile in cs.suspectTile:
+					if tile not in self.flaggedTiles:
+						self.flaggedTiles.append(tile)
+
+			if len(cs.suspectTile) > 0 and cs.hint == 0:
+				'''for i in range(len(cs.suspectTile)):
+					cs_new = Constrain([cs.suspectTile[i]], 0)
+					if cs_new not in constrains and cs_new.suspectTile:
+						constrains.append(cs_new)'''
+				for tile in cs.suspectTile:
+					if tile not in self.needUncover:
+						self.needUncover.append(tile)
 
 		return constrains
 
