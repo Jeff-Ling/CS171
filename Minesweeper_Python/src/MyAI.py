@@ -335,9 +335,15 @@ class MyAI( AI ):
 				print(CS2)
 
 				cs = cs1.compare(cs2)
+				print("NEW CS:" + str(cs.hint))
+				NEW_CS = ""
+				for new_tile in cs.suspectTile:
+					NEW_CS += str([new_tile.x + 1, new_tile.y + 1])
+				print(NEW_CS)
 
 				if cs not in constrains and len(cs.suspectTile) != 0:
 					constrains.append(cs)
+					print("CS append into constrains")
 
 				if len(cs.suspectTile) == cs.hint:
 					for i in range(len(cs.suspectTile)):
@@ -355,6 +361,9 @@ class MyAI( AI ):
 							constrains.append(cs_new)
 					'''for tile in cs.suspectTile:
 						self.needUncover.append(tile)'''
+
+				print()
+				print()
 
 		return constrains
 
