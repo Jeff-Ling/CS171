@@ -210,6 +210,15 @@ class MyAI( AI ):
 			
 			self.needUncover.pop(0)
 			"""
+		# Flag every tiles that are mines
+		if (len(self.flaggedTiles) != 0):
+			print("Flagged Tiles List")
+			for tile in self.flaggedTiles:
+				print([tile.x+1, tile.y+1])
+			self.curTile = self.flaggedTiles.pop()
+			self.numMines += 1
+			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
+
 
 		if len(self.hintTiles) != 0:
 			for i in self.hintTiles:
@@ -221,23 +230,15 @@ class MyAI( AI ):
 
 				if len(neighbours_covered) == i.getHint():
 					for y in neighbours_covered:
-						self.unexploredTiles.remove(y)
-						self.flaggedTiles.append(y)
+						if y not in self.flaggedTiles:
+							self.unexploredTiles.remove(y)
+							self.flaggedTiles.append(y)
 					"""
 					self.unexploredTiles.remove([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.flaggedTiles.append([neighbours_covered[0][0], neighbours_covered[0][1]])
 					self.needUncover = [] + self.unexploredTiles
 					"""
 					#return Action(AI.Action.FLAG, y.x, y.y)
-
-		# Flag every tiles that are mines
-		if (len(self.flaggedTiles) != 0):
-			print("Flagged Tiles List")
-			for tile in self.flaggedTiles:
-				print([tile.x+1, tile.y+1])
-			self.curTile = self.flaggedTiles.pop()
-			self.numMines += 1
-			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
 		# CSP Part
 		constrains = []
@@ -284,7 +285,7 @@ class MyAI( AI ):
 			elif constrain.hint == 0 and constrain.suspectTile[0] not in self.needUncover:
 				print("Append to safe tile" + str([constrain.suspectTile[0].x + 1, constrain.suspectTile[0].y + 1]))
 				self.needUncover.append(constrain.suspectTile[0])
-				
+
 		print("Flagged Tiles List")
 		for tile in self.flaggedTiles:
 			print([tile.x+1, tile.y+1])
