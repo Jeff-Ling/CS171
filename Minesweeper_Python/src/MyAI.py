@@ -315,7 +315,7 @@ class MyAI( AI ):
 	def solveConstrain(self, constrains):
 
 		for cs1 in constrains:
-			print("CS1:")
+			print("CS1:" + str(cs1.hint))
 			CS1 = ""
 			for tile in cs1.suspectTile:
 				CS1 += str([tile.x + 1, tile.y + 1])
@@ -323,7 +323,7 @@ class MyAI( AI ):
 
 			for cs2 in constrains:
 
-				print("CS2:")
+				print("CS2:" + set(cs2.hint))
 				CS2 = ""
 				for tile2 in cs2.suspectTile:
 					"""
