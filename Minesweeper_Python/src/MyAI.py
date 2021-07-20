@@ -356,7 +356,8 @@ class MyAI( AI ):
 							constrains.append(cs_new)'''
 
 					for tile in cs.suspectTile:
-						self.flaggedTiles.append(tile)
+						if tile not in self.flaggedTiles:
+							self.flaggedTiles.append(tile)
 
 				if len(cs.suspectTile) > 0 and cs.hint == 0:
 					'''for i in range(len(cs.suspectTile)):
@@ -364,7 +365,8 @@ class MyAI( AI ):
 						if cs_new not in constrains and cs_new.suspectTile:
 							constrains.append(cs_new)'''
 					for tile in cs.suspectTile:
-						self.needUncover.append(tile)
+						if tile not in self.needUncover:
+							self.needUncover.append(tile)
 
 				for cs3 in constrains:
 					CON = ""
