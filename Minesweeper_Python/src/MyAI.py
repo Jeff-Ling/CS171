@@ -191,12 +191,12 @@ class MyAI( AI ):
 			# Remove the tiles from unexplored tiles list
 			self.unexploredTiles.remove(self.curTile)
 
-		# Try to solve the situation when hint > 1
+		'''# Try to solve the situation when hint > 1
 		if tile.getNumber() == len(self.flaggedTiles) and len(self.unexploredTiles) != 0:
 			self.safeTiles.extend(self.unexploredTiles)
 			self.curTile = self.safeTiles.pop()
 			self.exploreTile(self.curTile)
-			return Action(AI.Action.UNCOVER, self.__curTile.x, self.__curTile.y)
+			return Action(AI.Action.UNCOVER, self.__curTile.x, self.__curTile.y)'''
 
 
 		# Uncover every tiles that are able to click
@@ -273,6 +273,11 @@ class MyAI( AI ):
 			
 			self.solveConstrain(constrains)
 
+		if self.needUncover:
+			self.curTile = self.needUncover.pop()
+			self.whenToLeaveCounter -= 1
+			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
+
 		
 	# Helper Function: Return a list of tile that contains the coordinate which is covered around (x,y)
 	def findNeighbours (self, x, y) -> list:
@@ -285,29 +290,6 @@ class MyAI( AI ):
 					neighbours.append(self.tiles[self.rowDimension - neighbour_y][neighbour_x])
 		
 		return neighbours
-		"""
-		tilesAround.append([x, y + 1])
-		tilesAround.append([x, y - 1])
-		tilesAround.append([x + 1, y])
-		tilesAround.append([x + 1, y + 1])
-		tilesAround.append([x + 1, y - 1])
-		tilesAround.append([x - 1, y])
-		tilesAround.append([x - 1, y + 1])
-		tilesAround.append([x - 1, y - 1])
-		"""
-
-		"""
-		for e in tilesAround:
-			if e in self.unexploredTiles:
-				neighbours.append(e)
-		"""
-
-		"""
-		print("tilesAround:")
-		print(tilesAround)
-		print("tileCovered:")
-		print(tileCovered)
-		"""
 
 
 	def solveConstrain(self, constrains):
