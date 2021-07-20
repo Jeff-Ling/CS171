@@ -280,12 +280,6 @@ class MyAI( AI ):
 				constrain = Constrain(suspectTile, tile.getHint() - flagTile_counter)
 				constrains.append(constrain)
 				#print("New constrain added")
-		for cs in constrains:
-			print(cs.hint)
-			css = ""
-			for tile in cs.suspectTile:
-				css += str([tile.x + 1, tile.y + 1])
-			print(css)
 
 		constrains = self.solveConstrain(constrains)
 		print("CSP is complete")
@@ -342,7 +336,7 @@ class MyAI( AI ):
 
 				if len(cs.suspectTile) == cs.hint:
 					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i], 1])
+						cs_new = Constrain([cs.suspectTile[i]], 1)
 						if cs_new not in constrains and cs_new.suspectTile:
 							constrains.append(cs_new)
 
@@ -351,7 +345,7 @@ class MyAI( AI ):
 
 				if len(cs.suspectTile) > 0 and cs.hint == 0:
 					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i], 0])
+						cs_new = Constrain([cs.suspectTile[i]], 0)
 						if cs_new not in constrains and cs_new.suspectTile:
 							constrains.append(cs_new)
 					'''for tile in cs.suspectTile:
