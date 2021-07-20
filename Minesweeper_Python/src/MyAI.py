@@ -323,7 +323,7 @@ class MyAI( AI ):
 
 			for cs2 in constrains:
 
-				print("CS2:" + set(cs2.hint))
+				print("CS2:" + str(cs2.hint))
 				CS2 = ""
 				for tile2 in cs2.suspectTile:
 					"""
