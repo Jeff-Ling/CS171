@@ -268,6 +268,13 @@ class MyAI( AI ):
 		print("CSP is complete")
 		extracted = self.extract(constrains)
 
+		for cs3 in extracted:
+			CON = ""
+			for tile in cs3.suspectTile:
+				CON += str([tile.x + 1, tile.y + 1])
+			CON += str(cs3.hint)
+			print(CON)
+
 
 		for constrain in extracted:
 			if constrain.hint == 1 and constrain.suspectTile[0] not in self.flaggedTiles:
