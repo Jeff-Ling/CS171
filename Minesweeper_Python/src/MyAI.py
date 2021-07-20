@@ -264,13 +264,13 @@ class MyAI( AI ):
 			flagTile_counter = 0
 			neighbours = self.findNeighbours(tile.x, tile.y)
 			suspectTile = []
-			print("Current Tile" + str([tile.x + 1, tile.y + 1]))
+			#print("Current Tile" + str([tile.x + 1, tile.y + 1]))
 
 			for neighbor in neighbours:
 				print("Neighbor" + str([neighbor.x + 1, neighbor.y + 1]))
 				if neighbor.getHint() == ".":
-					print("Frontier is true")
-					print("added neighbor" + str([neighbor.x + 1, neighbor.y + 1]))
+					"""print("Frontier is true")
+					print("added neighbor" + str([neighbor.x + 1, neighbor.y + 1]))"""
 					frontier = True
 					suspectTile.append(neighbor)	
 				elif neighbor.getHint() == -1:
@@ -279,8 +279,8 @@ class MyAI( AI ):
 			if frontier and tile.getHint() != -1:
 				constrain = Constrain(suspectTile, tile.getHint() - flagTile_counter)
 				constrains.append(constrain)
-				print("New constrain added")
-			
+				#print("New constrain added")
+
 		self.solveConstrain(constrains)
 
 		if self.needUncover:
@@ -305,7 +305,19 @@ class MyAI( AI ):
 	def solveConstrain(self, constrains):
 
 		for cs1 in constrains:
+			print("CS1:")
+			CS1 = ""
+			for tile in cs1.suspectTile:
+				CS1 += str([tile.x + 1, tile.y + 1])
+			print(CS1)
+			
 			for cs2 in constrains:
+
+				print("CS2:")
+				CS2 = ""
+				for tile2 in cs2.suspectTile:
+					CS2 += str([tile2.x + 1, tile.y + 1])
+				print(CS2)
 
 				cs = cs1.compare(cs2)
 
