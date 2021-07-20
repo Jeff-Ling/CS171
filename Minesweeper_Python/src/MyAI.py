@@ -280,10 +280,17 @@ class MyAI( AI ):
 				constrain = Constrain(suspectTile, tile.getHint() - flagTile_counter)
 				constrains.append(constrain)
 				#print("New constrain added")
+		for cs in constrains:
+			print(cs.hint)
+			css = ""
+			for tile in cs.suspectTile:
+				css += str([tile.x + 1, tile.y + 1])
+			print(css)
 
 		constrains = self.solveConstrain(constrains)
 		print("CSP is complete")
 		extracted = self.extract(constrains)
+
 
 		for constrain in extracted:
 			if constrain.hint == 1:
