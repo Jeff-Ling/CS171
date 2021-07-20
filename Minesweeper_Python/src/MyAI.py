@@ -325,7 +325,7 @@ class MyAI( AI ):
 				print("CS2:")
 				CS2 = ""
 				for tile2 in cs2.suspectTile:
-					CS2 += str([tile2.x + 1, tile.y + 1])
+					CS2 += str([tile2.x + 1, tile2.y + 1])
 				print(CS2)
 
 				cs = cs1.compare(cs2)
