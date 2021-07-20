@@ -270,9 +270,8 @@ class MyAI( AI ):
 					print("Frontier is true")
 					print("added neighbor" + str([neighbor.x, neighbor.y]))
 					frontier = True
-					suspectTile.append(neighbor)
-					
-				if neighbor.getHint() == -1:
+					suspectTile.append(neighbor)	
+				elif neighbor.getHint() == -1:
 					flagTile_counter += 1
 				
 			if frontier and tile.getHint() != -1:
