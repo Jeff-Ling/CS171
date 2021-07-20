@@ -289,9 +289,9 @@ class MyAI( AI ):
 				constrains.append(constrain)
 				#print("New constrain added")
 
-		constrains = self.solveConstrain(constrains)
+		self.solveConstrain(constrains)
 		print("CSP is complete")
-		extracted = self.extract(constrains)
+		'''extracted = self.extract(constrains)
 
 
 		for constrain in extracted:
@@ -299,7 +299,7 @@ class MyAI( AI ):
 				self.flaggedTiles.extend(constrain.suspectTile)
 
 			elif constrain.hint == 0:
-				self.needUncover.extend(constrain.suspectTile)
+				self.needUncover.extend(constrain.suspectTile)'''
 
 		if self.needUncover:
 			self.curTile = self.needUncover.pop()
@@ -349,22 +349,6 @@ class MyAI( AI ):
 					constrains.append(cs)
 					#print("CS append into constrains")
 
-				if len(cs.suspectTile) == cs.hint:
-					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i]], 1)
-						if cs_new not in constrains and cs_new.suspectTile:
-							constrains.append(cs_new)
-
-					'''for tile in cs.suspectTile:
-						self.flaggedTiles.append(tile)'''
-
-				if len(cs.suspectTile) > 0 and cs.hint == 0:
-					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i]], 0)
-						if cs_new not in constrains and cs_new.suspectTile:
-							constrains.append(cs_new)
-					'''for tile in cs.suspectTile:
-						self.needUncover.append(tile)'''
 
 				for cs3 in constrains:
 					CON = ""
@@ -374,6 +358,26 @@ class MyAI( AI ):
 					print(CON)
 				print()
 				print()
+		
+		for cs in constrains:
+			if len(cs.suspectTile) == cs.hint:
+				'''for i in range(len(cs.suspectTile)):
+					cs_new = Constrain([cs.suspectTile[i]], 1)
+					if cs_new not in constrains and cs_new.suspectTile:
+						constrains.append(cs_new)'''
+
+				for tile in cs.suspectTile:
+					if tile not in self.flaggedTiles:
+						self.flaggedTiles.append(tile)
+
+			if len(cs.suspectTile) > 0 and cs.hint == 0:
+				'''for i in range(len(cs.suspectTile)):
+					cs_new = Constrain([cs.suspectTile[i]], 0)
+					if cs_new not in constrains and cs_new.suspectTile:
+						constrains.append(cs_new)'''
+				for tile in cs.suspectTile:
+					if tile not in self.needUncover:
+						self.needUncover.append(tile)
 
 		return constrains
 
