@@ -147,14 +147,6 @@ class MyAI( AI ):
 			self.firstStep = False
 
 			self.curTile = self.tiles[self.rowDimension - self.startY][self.startX]
-			"""
-			self.previousX = self.startX
-			self.previousY = self.startY
-			print ([self.startX, self.startY])
-			print ("Finish first time")
-			print ("curTile Check: ")
-			print (self.curTile.x, self.curTile.y)
-			"""
 			self.whenToLeaveCounter -= 1
 			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
@@ -170,17 +162,6 @@ class MyAI( AI ):
 
 			# Uncover all tiles around safe tile
 			tilesAroundCurrent = self.findNeighbours(self.curTile.x, self.curTile.y)
-			"""
-			tilesAroundCurrent = []
-			tilesAroundCurrent.append([self.previousX, self.previousY + 1])
-			tilesAroundCurrent.append([self.previousX, self.previousY - 1])
-			tilesAroundCurrent.append([self.previousX + 1, self.previousY])
-			tilesAroundCurrent.append([self.previousX + 1, self.previousY + 1])
-			tilesAroundCurrent.append([self.previousX + 1, self.previousY - 1])
-			tilesAroundCurrent.append([self.previousX - 1, self.previousY])
-			tilesAroundCurrent.append([self.previousX - 1, self.previousY + 1])
-			tilesAroundCurrent.append([self.previousX - 1, self.previousY - 1])
-			"""
 
 			# Ensure action in bound
 			for tile in tilesAroundCurrent:
@@ -229,12 +210,6 @@ class MyAI( AI ):
 			
 			self.needUncover.pop(0)
 			"""
-
-
-        # Flag every tiles that are mines
-		#if (len(self.flaggedTiles) != 0):
-		#	self.curTile = self.flaggedTiles.pop()
-		#	return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
 		if len(self.hintTiles) != 0:
 			for i in self.hintTiles:
@@ -289,9 +264,9 @@ class MyAI( AI ):
 				constrains.append(constrain)
 				#print("New constrain added")
 
-		self.solveConstrain(constrains)
+		constrains = self.solveConstrain(constrains)
 		print("CSP is complete")
-		'''extracted = self.extract(constrains)
+		extracted = self.extract(constrains)
 
 
 		for constrain in extracted:
@@ -299,7 +274,7 @@ class MyAI( AI ):
 				self.flaggedTiles.extend(constrain.suspectTile)
 
 			elif constrain.hint == 0:
-				self.needUncover.extend(constrain.suspectTile)'''
+				self.needUncover.extend(constrain.suspectTile)
 
 		if self.needUncover:
 			self.curTile = self.needUncover.pop()
@@ -349,6 +324,25 @@ class MyAI( AI ):
 					constrains.append(cs)
 					#print("CS append into constrains")
 
+				if len(cs.suspectTile) == cs.hint:
+					for i in range(len(cs.suspectTile)):
+						cs_new = Constrain([cs.suspectTile[i]], 1)
+						if cs_new not in constrains and cs_new.suspectTile:
+							constrains.append(cs_new)
+
+				'''for tile in cs.suspectTile:
+					if tile not in self.flaggedTiles and tile:
+						self.flaggedTiles.append(tile)'''
+
+				if len(cs.suspectTile) > 0 and cs.hint == 0:
+					for i in range(len(cs.suspectTile)):
+						cs_new = Constrain([cs.suspectTile[i]], 0)
+						if cs_new not in constrains and cs_new.suspectTile:
+							constrains.append(cs_new)
+				'''for tile in cs.suspectTile:
+					if tile not in self.needUncover and tile not in self.safeTiles:
+						self.needUncover.append(tile)'''
+
 
 				for cs3 in constrains:
 					CON = ""
@@ -358,26 +352,6 @@ class MyAI( AI ):
 					print(CON)
 				print()
 				print()
-		
-		for cs in constrains:
-			if len(cs.suspectTile) == cs.hint:
-				'''for i in range(len(cs.suspectTile)):
-					cs_new = Constrain([cs.suspectTile[i]], 1)
-					if cs_new not in constrains and cs_new.suspectTile:
-						constrains.append(cs_new)'''
-
-				for tile in cs.suspectTile:
-					if tile not in self.flaggedTiles:
-						self.flaggedTiles.append(tile)
-
-			if len(cs.suspectTile) > 0 and cs.hint == 0:
-				'''for i in range(len(cs.suspectTile)):
-					cs_new = Constrain([cs.suspectTile[i]], 0)
-					if cs_new not in constrains and cs_new.suspectTile:
-						constrains.append(cs_new)'''
-				for tile in cs.suspectTile:
-					if tile not in self.needUncover:
-						self.needUncover.append(tile)
 
 		return constrains
 
