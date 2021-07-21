@@ -12,330 +12,288 @@
 #				- DO NOT MAKE CHANGES TO THIS FILE.
 # ==============================CS-199==================================
 
+import random
 from AI import AI
 from Action import Action
 from collections import Counter
 
 
 class Tile():
-	
-	def __init__(self, x:int, y:int, hint:int = "."):
-		self.x = x
-		self.y = y
-		self.hint = hint
+
+    def __init__(self, loc: tuple = (None, None), number: int = '.', mine: bool = False, covered: bool = True, flag: bool = False):
+        self.mine = mine
+        self.covered = covered
+        self.flag = flag
+        self.number = number
+        self.loc = loc
+
+    def getNumber(self) -> int:
+        return self.number
+
+    def setNumber(self, num: int):
+        self.number = num
+    
+    def uncoverTile(self):
+        self.covered = False
 
 
-	def getHint(self) -> int:
-		return self.hint
+class Equation:
+    def __init__(self, variables=list(), number=0):
+        self.variables = variables
+        self.number = number
 
+    def __repr__(self):
+        return f"{self.variables} {self.number}"
 
-	def setHint(self, num:int):
-		self.hint = num
+    def __eq__(self, other):
+        def compare(x, y): return Counter(x) == Counter(y)
+        if compare(self.variables, other.variables) and self.number == other.number:
+            return True
 
-class Constrain():
+        else:
+            return False
 
-	def __init__(self, suspectTile = [], hint = 0):
-		self.suspectTile = suspectTile
-		self.hint = hint
+    def compare(self, other_eq):
+        eq = Equation()
 
-	def __eq__(self, another_constrain):
-		def compare(x, y): return Counter(x) == Counter(y)
-		if compare(self.suspectTile, another_constrain.suspectTile) and self.hint == another_constrain.hint:
-			return True
-		else:
-			return False
+        eq1 = self
+        eq2 = other_eq
 
-	def compare(self, another_constrain):
-		new_constrain = Constrain()
+        if set(eq1.variables).issubset(set(eq2.variables)):
+            eq.variables = list(set(eq2.variables) - set(eq1.variables))
+            eq.number = eq2.number - eq1.number
 
-		issubset = True
+        return eq
 
-		this_constrain = self
+class MyAI(AI):
 
-		for variable in set(this_constrain.suspectTile):
-			if variable not in set(another_constrain.suspectTile):
-				issubset = False
-				break
+    def __init__(self, rowDimension, colDimension, totalMines, startX, startY):
 
-		if issubset:
-			new_constrain.suspectTile = list(set(another_constrain.suspectTile) - set(this_constrain.suspectTile))
-			new_constrain.hint = another_constrain.hint - this_constrain.hint
+        self.__rowDimension = rowDimension
+        self.__colDimension = colDimension
+        self.__totalMines = totalMines
+        self.__exploredTiles = list()       # Already explored tiles
+        self.__unexploredTiles = list()     # Not yet explored
+        self.__safeTiles = list()           # List of coordinate locations
+        self.__flagTiles = list()
+        self.__curTile = Tile()             # Current tile of focus / X IS COLUMN / Y IS ROW
+        self.__tiles = list()
 
-		return new_constrain
-
-
-class MyAI( AI ):
-
-	def __init__(self, rowDimension, colDimension, totalMines, startX, startY):
-
-		########################################################################
-		#							YOUR CODE BEGINS						   #
-		########################################################################
-		# Edited by Y. Song and J. Ling at 2021.07.10
-
-		self.rowDimension = rowDimension - 1
-		self.colDimension = colDimension - 1
-		self.totalMines = totalMines
-		self.startX = startX
-		self.startY = startY
-
-		self.curTile = Tile(startX, startY)
-
-		self.whenToLeaveCounter = rowDimension * colDimension - totalMines
-		self.numMines = 0
-
-		self.firstStep = True
-
-		# Uncovered Tiles
-		self.safeTiles = list() # Hint = 0
-		self.hintTiles = list() # Hint != 0
-		self.flaggedTiles = list() # Suspected Mines
-
-		# Covered Tiles
-		self.unexploredTiles = list()
-
-		# A list contains all tiles
-		self.tiles = list()
-
-		self.needUncover = list()
-
-		# Reverse the range because the row is counted from the bottom
-		for row in reversed(range(rowDimension)):
-			tileRow = list()
-			for col in range(colDimension):
-				tileRow.append(Tile(col, row))
-			self.tiles.append(tileRow)
+        # Reverse the range because the row is counted from the bottom
+        for row in reversed(range(rowDimension)):
+            tileRow = list()
+            for col in range(colDimension):
+                tileRow.append(Tile(loc=(col, row)))
+            self.__tiles.append(tileRow)
 
         # Every tile is UNEXPLORED yet
-		for row in self.tiles:
-			for tile in row:
-				self.unexploredTiles.append(tile)
+        for row in self.__tiles:
+            for tile in row:
+                self.__unexploredTiles.append(tile)
 
-		########################################################################
-		#							YOUR CODE ENDS							   #
-		########################################################################
+        # The first tile starts at the given position. The tile is safe. It gets a number of 0
+        self.__startTile = Tile(loc=(startX, startY), number=0, covered=False)
+        self.__tiles[self.__rowDimension - 1 -
+                     startY][startX] = self.__startTile
+        self.__curTile = self.__startTile
+        self.exploreTile(self.__curTile)
 
-		
-	def getAction(self, number: int) -> "Action Object":
+    def getAction(self, cur_tile_number: int) -> "Action Object":
 
-		########################################################################
-		#							YOUR CODE BEGINS						   #
-		########################################################################
-		# Edited by Y. Song and J. Ling at 2021.07.10
-		
-		if self.firstStep:
-			self.firstStep = False
+        self.__curTile.setNumber(cur_tile_number)
+        self.findSafeTiles(self.__curTile)
 
-			self.curTile = self.tiles[self.rowDimension - self.startY][self.startX]
-			self.whenToLeaveCounter -= 1
-			self.unexploredTiles.remove(self.curTile)
-			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
+        # Uncover all the safe tiles
+        if self.__safeTiles:
+            self.__curTile = self.__safeTiles.pop()
+            self.exploreTile(self.__curTile)
 
-		self.curTile.setHint(number)
+            return Action(AI.Action.UNCOVER, self.__curTile.loc[0], self.__curTile.loc[1])
 
-		if (number == 0):
-			# Append uncovered tiles to list
-			self.safeTiles.append(self.curTile)
+        elif self.__flagTiles:
+            self.__curTile = self.__flagTiles.pop()
+            self.exploreTile(self.__curTile)
+            self.__curTile.flag = True
 
-			# Uncover all tiles around safe tile
-			tilesAroundCurrent = self.findNeighbours(self.curTile.x, self.curTile.y)
+            return Action(AI.Action.FLAG, self.__curTile.loc[0], self.__curTile.loc[1])
 
-			# Ensure action in bound
-			for tile in tilesAroundCurrent:
-				if tile.x >= 0 and tile.x <= self.rowDimension and tile.y >= 0 and tile.y <= self.colDimension and tile not in self.needUncover and tile not in self.hintTiles and tile not in self.safeTiles:
-					self.needUncover.append(tile)
+        # No more safe tiles
+        else:
+            for tile in self.__exploredTiles:
+                if tile.getNumber() > 0:
+                    covered_tiles = self.getCoveredTiles(tile)
+                    flagged_tiles = self.getFlaggedTiles(tile)
 
-		elif (number >= 1):
-			self.hintTiles.append(self.curTile)
+                    if tile.getNumber() == len(covered_tiles) + len(flagged_tiles) and len(covered_tiles) != 0:
 
-		# Uncover every tiles that are able to click
-		if (len(self.needUncover) != 0):
-			print("Need Uncover Tiles List")
-			for tile in self.needUncover:
-				print([tile.x+1, tile.y+1])
-			self.curTile = self.needUncover.pop()
-			self.whenToLeaveCounter -= 1
-			self.unexploredTiles.remove(self.curTile)
-			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
+                        self.__curTile = covered_tiles.pop()
+                        self.exploreTile(self.__curTile)
+                        self.__curTile.flag = True
 
-		# Flag every tiles that are mines
-		if (len(self.flaggedTiles) != 0):
-			print("Flagged Tiles List")
-			for tile in self.flaggedTiles:
-				print([tile.x+1, tile.y+1])
-			self.curTile = self.flaggedTiles.pop()
-			self.numMines += 1
-			self.unexploredTiles.remove(self.curTile)
-			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
-		
-		if len(self.hintTiles) != 0:
-			for tile in self.hintTiles:
+                        return Action(AI.Action.FLAG, self.__curTile.loc[0], self.__curTile.loc[1])
 
-				flag_Tile = []
-				covered_Tile = []
-				tilesAroundCurrent = self.findNeighbours(tile.x, tile.y)
-				for x in tilesAroundCurrent:
-					if x.getHint() == ".":
-						covered_Tile.append(x)
-					elif x.getHint == -1:
-						flag_Tile.append(x)
+                    else:
 
-				if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
-					for y in covered_Tile:
-						self.flaggedTiles.append(y)
+                        if tile.getNumber() == len(flagged_tiles) and len(covered_tiles) != 0:
+                            self.__safeTiles.extend(covered_tiles)
+                            self.__curTile = self.__safeTiles.pop()
+                            self.exploreTile(self.__curTile)
 
-				elif tile.getHint() == len(flag_Tile) and len(covered_Tile) != 0:
-					for y in covered_Tile:
-						self.needUncover.append(y)
-		
+                            return Action(AI.Action.UNCOVER, self.__curTile.loc[0], self.__curTile.loc[1])
 
-		# CSP part
-		constrains = []
+        eqs = list()
 
-		for tile in self.hintTiles:
-			frontier = False
-			flagTile_counter = 0
-			neighbours = self.findNeighbours(tile.x, tile.y)
-			suspectTile = []
-			#print("Current Tile" + str([tile.x + 1, tile.y + 1]))
+        for tile in self.__exploredTiles:
+            frontier = False
+            flag_count = 0
+            neighbors = self.getNeighbors(tile)
+            variables = list()
 
-			for neighbor in neighbours:
-				#print("Neighbor" + str([neighbor.x + 1, neighbor.y + 1]))
-				if neighbor.getHint() == ".":
-					"""print("Frontier is true")
-					print("added neighbor" + str([neighbor.x + 1, neighbor.y + 1]))"""
-					frontier = True
-					suspectTile.append(neighbor)	
-				elif neighbor.getHint() == -1:
-					flagTile_counter += 1
-				
-			if frontier and tile.getHint() != -1:
-				constrain = Constrain(suspectTile, tile.getHint() - flagTile_counter)
-				constrains.append(constrain)
-				#print("New constrain added")
+            for neighbor in neighbors:
+                if neighbor.getNumber() == '.':
+                    frontier = True
+                    variables.append(neighbor)
 
-		constrains = self.solveConstrain(constrains)
-		print("CSP is complete")
-		extracted = self.extract(constrains)
+                if neighbor.getNumber() == -1:
+                    flag_count += 1
 
-		for cs3 in extracted:
-			CON = ""
-			for tile in cs3.suspectTile:
-				CON += str([tile.x + 1, tile.y + 1])
-			CON += str(cs3.hint)
-			print(CON)
+            if frontier and tile.getNumber() != -1:
+                eq = Equation(variables, tile.getNumber() - flag_count)
+                eqs.append(eq)
 
+        eqs = self.runCSP(eqs)
+        extracted = self.extractEqs(eqs)
 
-		for constrain in extracted:
-			if constrain.hint == 1 and constrain.suspectTile[0] not in self.flaggedTiles:
-				print("Append to flag tile" + str([constrain.suspectTile[0].x + 1, constrain.suspectTile[0].y + 1]))
-				self.flaggedTiles.append(constrain.suspectTile[0])
+        for eq in extracted:
+            if eq.number == 1:
+                self.__flagTiles.extend(eq.variables)
 
-			elif constrain.hint == 0 and constrain.suspectTile[0] not in self.needUncover:
-				print("Append to safe tile" + str([constrain.suspectTile[0].x + 1, constrain.suspectTile[0].y + 1]))
-				self.needUncover.append(constrain.suspectTile[0])
+            elif eq.number == 0:
+                self.__safeTiles.extend(eq.variables)
 
-		print("Flagged Tiles List")
-		for tile in self.flaggedTiles:
-			print([tile.x+1, tile.y+1])
+        if self.__safeTiles:
+            self.__curTile = self.__safeTiles.pop()
+            self.exploreTile(self.__curTile)
 
-		if self.needUncover:
-			self.curTile = self.needUncover.pop()
-			self.whenToLeaveCounter -= 1
-			self.unexploredTiles.remove(self.curTile)
-			return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
+            return Action(AI.Action.UNCOVER, self.__curTile.loc[0], self.__curTile.loc[1])
 
-		if self.flaggedTiles:
-			self.curTile = self.flaggedTiles.pop()
-			self.numMines += 1
-			self.unexploredTiles.remove(self.curTile)
-			return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
+        if self.checkWinningStatus():
+            return Action(AI.Action.LEAVE)
 
-		if (self.whenToLeaveCounter == 0):
-			return Action(AI.Action.LEAVE)
+        # Best Guess
+        if not self.__safeTiles:
+            min_p = 10
+            for x in [z for z in self.__exploredTiles if z.number > 0]:
+                for t in self.getNeighbors(x):
+                    if t.covered and not t.flag:
+                        coveredNeighbors = [c for c in self.getNeighbors(x) if c.covered]
+                        if coveredNeighbors:
+                            cur_p = int(x.number)/len(coveredNeighbors)
+                            if cur_p < min_p:
+                                min_p = cur_p
+                                self.__curTile = t
+            self.exploreTile(self.__curTile)
+            return Action(AI.Action.UNCOVER, self.__curTile.loc[0], self.__curTile.loc[1])
 
-		return Action(AI.Action.LEAVE)
-	
-	# Helper Function: Return a list of tile that contains the coordinate which is covered around (x,y)
-	def findNeighbours (self, x, y) -> list:
-		
-		neighbours = []
+        # # Random Tile
+        #     self.__curTile = random.choice(self.__unexploredTiles)
+        #     self.exploreTile(self.__curTile)
 
-		for neighbour_x in range (x - 1, x + 2):
-			for neighbour_y in range (y - 1, y + 2):
-				if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and not(x == neighbour_x and y == neighbour_y):
-					neighbours.append(self.tiles[self.rowDimension - neighbour_y][neighbour_x])
-		
-		return neighbours
+        #     return Action(AI.Action.UNCOVER, self.__curTile.loc[0], self.__curTile.loc[1])
 
-	def solveConstrain(self, constrains):
+        return Action(AI.Action.LEAVE)
 
-		for cs1 in constrains:
-			'''print("CS1:" + str(cs1.hint))
-			CS1 = ""
-			for tile in cs1.suspectTile:
-				CS1 += str([tile.x + 1, tile.y + 1])
-			print(CS1)'''
+    # returns neighbors' locations
+    def getNeighbors(self, tile) -> list:
 
-			for cs2 in constrains:
+        cur_x = tile.loc[0]
+        cur_y = tile.loc[1]
+        neighbors = list()
 
-				'''print("CS2:" + str(cs2.hint))
-				CS2 = ""
-				for tile2 in cs2.suspectTile:
-					CS2 += str([tile2.x + 1, tile2.y + 1])
-				print(CS2)'''
+        if cur_x != None and cur_y != None:
+            for x in range(cur_x - 1, cur_x + 2):
+                for y in range(cur_y - 1, cur_y + 2):
+                    if -1 < x < self.__colDimension and -1 < y < self.__rowDimension and not (x == cur_x and y == cur_y):
+                        neighbors.append(
+                            self.__tiles[self.__rowDimension - 1 - y][x])
 
-				cs = cs1.compare(cs2)
-				
-				'''print("NEW CS:" + str(cs.hint))
-				NEW_CS = ""
-				for new_tile in cs.suspectTile:
-					NEW_CS += str([new_tile.x + 1, new_tile.y + 1])
-				print(NEW_CS)'''
+        return neighbors
 
-				if cs not in constrains and len(cs.suspectTile) != 0:
-					constrains.append(cs)
-					#print("CS append into constrains")
+    def getCoveredTiles(self, tile):
+        filtered = list()
+        neighbors = self.getNeighbors(tile)
 
-				if len(cs.suspectTile) == cs.hint:
-					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i]], 1)
-						if cs_new not in constrains and cs_new.suspectTile:
-							constrains.append(cs_new)
+        for tile in neighbors:
+            if tile.getNumber() == '.':
+                filtered.append(tile)
 
-				'''for tile in cs.suspectTile:
-					if tile not in self.flaggedTiles and tile:
-						self.flaggedTiles.append(tile)'''
+        return filtered
 
-				if len(cs.suspectTile) > 0 and cs.hint == 0:
-					for i in range(len(cs.suspectTile)):
-						cs_new = Constrain([cs.suspectTile[i]], 0)
-						if cs_new not in constrains and cs_new.suspectTile:
-							constrains.append(cs_new)
-				'''for tile in cs.suspectTile:
-					if tile not in self.needUncover and tile not in self.safeTiles:
-						self.needUncover.append(tile)'''
+    def getFlaggedTiles(self, tile):
+        filtered = list()
+        neighbors = self.getNeighbors(tile)
 
+        for tile in neighbors:
+            if tile.getNumber() == -1:
+                filtered.append(tile)
 
-				for cs3 in constrains:
-					CON = ""
-					for tile in cs3.suspectTile:
-						CON += str([tile.x + 1, tile.y + 1])
-					CON += str(cs3.hint)
-					print(CON)
-				print()
-				print()
+        return filtered
 
-		return constrains
+    def checkWinningStatus(self):
+        mine_count = 0
+        for row in self.__tiles:
+            for tile in row:
+                if tile.getNumber() == -1:
+                    mine_count += 1
 
-	def extract(self, constrains):
-		extractred = list()
-		for constrain in constrains:
-			if len(constrain.suspectTile) == 1:
-				extractred.append(constrain)
-		return extractred
+        return mine_count == self.__totalMines
 
+    def findSafeTiles(self, tile):
 
-		########################################################################
-		#							YOUR CODE ENDS							   #
-		########################################################################
+        if tile.getNumber() == 0:
+            self.__safeTiles.extend(tile for tile in self.getNeighbors(
+                tile) if tile not in self.__safeTiles and tile not in self.__exploredTiles)
+
+        # Update the tile info
+        tile.uncoverTile()
+        self.__tiles[self.__rowDimension - 1 - tile.loc[1]][tile.loc[0]] = tile
+
+    def exploreTile(self, tile):
+        try:
+            self.__exploredTiles.append(tile)
+            self.__unexploredTiles.remove(tile)
+
+        except ValueError:
+            pass
+
+    def runCSP(self, eqs):
+
+        for eq1 in eqs:
+            for eq2 in eqs:
+
+                eq = eq1.compare(eq2)
+
+                if eq not in eqs and eq.variables:
+                    eqs.append(eq)
+
+                if len(eq.variables) == eq.number:
+                    for i in range(len(eq.variables)):
+                        eq_new = Equation([eq.variables[i]], 1)
+                        if eq_new not in eqs and eq_new.variables:
+                            eqs.append(eq_new)
+
+                if len(eq.variables) > 0 and eq.number == 0:
+                    for i in range(len(eq.variables)):
+                        eq_new = Equation([eq.variables[i]], 0)
+                        if eq_new not in eqs and eq_new.variables:
+                            eqs.append(eq_new)
+
+        return eqs
+
+    def extractEqs(self, eqs):
+        extracted = list()
+        for eq in eqs:
+            if len(eq.variables) == 1:
+                extracted.append(eq)
+
+        return extracted
