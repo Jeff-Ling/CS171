@@ -74,6 +74,8 @@ class MyAI(AI):
         self.rowDimension = rowDimension
         self.colDimension = colDimension
         self.totalMines = totalMines
+        self.startX = startX
+        self.startY = startY
 
         self.tiles = list()               # A list contains all tiles
         self.exploredTiles = list()       # Already explored tiles
