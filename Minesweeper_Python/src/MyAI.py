@@ -188,6 +188,8 @@ class MyAI( AI ):
 					for y in covered_Tile:
 						self.needUncover.append(y)
 		
+
+		# CSP part
 		constrains = []
 
 		for tile in self.hintTiles:
@@ -291,14 +293,14 @@ class MyAI( AI ):
 					NEW_CS += str([new_tile.x + 1, new_tile.y + 1])
 				print(NEW_CS)'''
 
-				if cs not in constrains and len(cs.suspectTile) != 0 and cs.hint > 0:
+				if cs not in constrains and len(cs.suspectTile) != 0:
 					constrains.append(cs)
 					#print("CS append into constrains")
 
 				if len(cs.suspectTile) == cs.hint:
 					for i in range(len(cs.suspectTile)):
 						cs_new = Constrain([cs.suspectTile[i]], 1)
-						if cs_new not in constrains and cs_new.suspectTile and cs_new.hint > 0:
+						if cs_new not in constrains and cs_new.suspectTile:
 							constrains.append(cs_new)
 
 				'''for tile in cs.suspectTile:
@@ -308,7 +310,7 @@ class MyAI( AI ):
 				if len(cs.suspectTile) > 0 and cs.hint == 0:
 					for i in range(len(cs.suspectTile)):
 						cs_new = Constrain([cs.suspectTile[i]], 0)
-						if cs_new not in constrains and cs_new.suspectTile and cs_new.hint > 0:
+						if cs_new not in constrains and cs_new.suspectTile:
 							constrains.append(cs_new)
 				'''for tile in cs.suspectTile:
 					if tile not in self.needUncover and tile not in self.safeTiles:
