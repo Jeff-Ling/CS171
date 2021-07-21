@@ -257,9 +257,8 @@ class MyAI(AI):
             for neighbour_y in range (y - 1, y + 2):
                 if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and not(x == neighbour_x and y == neighbour_y):
                     neighbours.append(self.tiles[self.rowDimension - neighbour_y][neighbour_x])
-		
-		return neighbours
 
+        return neighbours
     
     def solveConstrain(self, constrains):
 
