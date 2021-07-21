@@ -253,6 +253,7 @@ class MyAI(AI):
     def findNeighbours(self, x, y) -> list:
 
         neighbours = []
+        print(x)
         for neighbour_x in range (x - 1, x + 2):
             for neighbour_y in range (y - 1, y + 2):
                 if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and not(x == neighbour_x and y == neighbour_y):
