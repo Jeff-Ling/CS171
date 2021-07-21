@@ -28,6 +28,8 @@ class Tile():
         self.location = location
         self.x = location[0]
         self.y = location[1]
+        print([self.x, self.y])
+
 
     def getHint(self) -> int:
         return self.hint
