@@ -135,7 +135,7 @@ class MyAI(AI):
 
                     else:
 
-                        if tile.getNumber() == len(flaggedTiles) and len(coveredTiles) != 0:
+                        if tile.getHint() == len(flaggedTiles) and len(coveredTiles) != 0:
                             self.__safeTiles.extend(coveredTiles)
                             self.curTile = self.safeTiles.pop()
                             self.exploreTile(self.curTile)
@@ -222,7 +222,7 @@ class MyAI(AI):
         neighbours = self.getNeighbours(tile)
 
         for tile in neighbours:
-            if tile.getNumber() == '.':
+            if tile.getHint() == '.':
                 filtered.append(tile)
 
         return filtered
