@@ -226,7 +226,7 @@ class MyAI(AI):
             self.unexploredTiles.remove(self.curTile)
             self.whenToLeaveCounter -= 1
 
-            return Action(AI.Action.UNCOVER, self.curTile.location[0], self.curTile.location[1])
+            return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         if self.numMines == self.totalMines:
             return Action(AI.Action.LEAVE)
