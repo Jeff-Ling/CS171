@@ -57,7 +57,7 @@ class Equation:
         eq1 = self
         eq2 = other_eq
 
-        if set(eq1.variables).isSubset(set(eq2.variables)):
+        if set(eq1.variables).issubset(set(eq2.variables)):
             eq.variables = list(set(eq2.variables) - set(eq1.variables))
             eq.number = eq2.number - eq1.number
 
