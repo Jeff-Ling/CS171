@@ -184,12 +184,12 @@ class MyAI(AI):
         # Best Guess
         if not self.safeTiles:
             min_p = 10
-            for x in [z for z in self.exploredTiles if z.number > 0]:
+            for x in [z for z in self.exploredTiles if z.hint > 0]:
                 for t in self.getNeighbours(x):
                     if t.isCovered and not t.isFlagged:
                         coveredNeighbours = [c for c in self.getNeighbours(x) if c.isCovered]
                         if coveredNeighbours:
-                            cur_p = int(x.number) / len(coveredNeighbours)
+                            cur_p = int(x.hint) / len(coveredNeighbours)
                             if cur_p < min_p:
                                 min_p = cur_p
                                 self.curTile = t
