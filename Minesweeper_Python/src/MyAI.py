@@ -136,7 +136,7 @@ class MyAI(AI):
                     else:
 
                         if tile.getHint() == len(flaggedTiles) and len(coveredTiles) != 0:
-                            self.__safeTiles.extend(coveredTiles)
+                            self.safeTiles.extend(coveredTiles)
                             self.curTile = self.safeTiles.pop()
                             self.exploreTile(self.curTile)
 
