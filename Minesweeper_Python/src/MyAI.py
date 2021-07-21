@@ -25,7 +25,9 @@ class Tile():
         self.covered = covered
         self.flag = flag
         self.hint = hint
-        self.locationation = location
+        self.location = location
+        self.x = location[0]
+        self.y = location[1]
 
     def getHint(self) -> int:
         return self.hint
@@ -125,7 +127,7 @@ class MyAI(AI):
                 if tile.x >= 0 and tile.x <= self.rowDimension and tile.y >= 0 and tile.y <= self.colDimension and tile not in self.needUncover and tile not in self.hintTiles and tile not in self.safeTiles:
                     self.needUncover.append(tile)
             tile.uncoverTile()
-            self.tiles[self.rowDimension - 1 - tile.location[1]][tile.location[0]] = tile
+            self.tiles[self.rowDimension - 1 - tile.y][tile.x] = tile
 
         # Uncover all the safe tiles
         if self.safeTiles:
@@ -134,7 +136,7 @@ class MyAI(AI):
             self.unexploredTiles.remove(self.curTile)
             self.whenToLeaveCounter -= 1
 
-            return Action(AI.Action.UNCOVER, self.curTile.location[0], self.curTile.location[1])
+            return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         elif self.flaggedTiles:
             self.curTile = self.flaggedTiles.pop()
@@ -143,7 +145,7 @@ class MyAI(AI):
             self.curTile.flag = True
             self.numMines += 1
 
-            return Action(AI.Action.FLAG, self.curTile.location[0], self.curTile.location[1])
+            return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
         # No more safe tiles
         else:
@@ -175,7 +177,7 @@ class MyAI(AI):
                         self.curTile.flag = True
                         self.numMines += 1
 
-                        return Action(AI.Action.FLAG, self.curTile.location[0], self.curTile.location[1])
+                        return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
                     else:
 
@@ -186,7 +188,7 @@ class MyAI(AI):
                             self.unexploredTiles.remove(self.curTile)
                             self.whenToLeaveCounter -= 1
 
-                            return Action(AI.Action.UNCOVER, self.curTile.location[0], self.curTile.location[1])
+                            return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         constrains = list()
 
@@ -248,20 +250,15 @@ class MyAI(AI):
         return Action(AI.Action.LEAVE)
 
     # returns neighbors' locationations
-    def getNeighbors(self, tile) -> list:
+    def findNeighbours(self, x, y) -> list:
 
-        cur_x = tile.location[0]
-        cur_y = tile.location[1]
-        neighbors = list()
-
-        if cur_x != None and cur_y != None:
-            for x in range(cur_x - 1, cur_x + 2):
-                for y in range(cur_y - 1, cur_y + 2):
-                    if -1 < x < self.colDimension and -1 < y < self.rowDimension and not (x == cur_x and y == cur_y):
-                        neighbors.append(
-                            self.tiles[self.rowDimension - 1 - y][x])
-
-        return neighbors
+        neighbours = []
+        for neighbour_x in range (x - 1, x + 2):
+            for neighbour_y in range (y - 1, y + 2):
+                if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and not(x == neighbour_x and y == neighbour_y):
+                    neighbours.append(self.tiles[self.rowDimension - neighbour_y][neighbour_x])
+		
+		return neighbours
 
     
     def solveConstrain(self, constrains):
