@@ -204,7 +204,7 @@ class MyAI(AI):
         for tile in self.exploredTiles:
             frontier = False
             flag_count = 0
-            neighbors = self.getNeighbors(tile)
+            neighbors = self.findNeighbours(tile)
             suspectTile = list()
 
             for neighbor in neighbors:
