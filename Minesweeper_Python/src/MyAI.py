@@ -27,7 +27,7 @@ class Tile():
         self.location = location
         self.x = location[0]
         self.y = location[1]
-        print([self.x, self.y])
+        #print([self.x, self.y])
 
 
     def getHint(self) -> int:
@@ -128,8 +128,8 @@ class MyAI(AI):
             for tile in tilesAroundCurrent:
                 if tile.x >= 0 and tile.x <= self.rowDimension and tile.y >= 0 and tile.y <= self.colDimension and tile not in self.safeTiles and tile not in self.exploredTiles and tile not in self.safeTiles:
                     self.safeTiles.append(tile)
-            tile.uncoverTile()
-            self.tiles[self.rowDimension - 1 - tile.y][tile.x] = tile
+                    tile.uncoverTile()
+                    self.tiles[self.rowDimension - 1 - tile.y][tile.x] = tile
 
         # Uncover all the safe tiles
         if self.safeTiles:
@@ -137,6 +137,7 @@ class MyAI(AI):
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
             self.whenToLeaveCounter -= 1
+            print([self.curTile.x + 1, self.curTile.y + 1])
 
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
@@ -255,7 +256,6 @@ class MyAI(AI):
     def findNeighbours(self, x, y) -> list:
 
         neighbours = []
-        print(x)
         for neighbour_x in range (x - 1, x + 2):
             for neighbour_y in range (y - 1, y + 2):
                 if 0 <= neighbour_x <= self.rowDimension and 0 <= neighbour_y <= self.colDimension and not(x == neighbour_x and y == neighbour_y):
