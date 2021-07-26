@@ -113,6 +113,7 @@ class MyAI(AI):
             self.curTile = self.tiles[self.rowDimension - 1 - self.startY][self.startX]
             self.whenToLeaveCounter -= 1
             self.unexploredTiles.remove(self.curTile)
+            self.exploredTiles.append(self.curTile)
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         self.curTile.setHint(number)
