@@ -126,8 +126,10 @@ class MyAI(AI):
 
 			# Ensure action in bound
             for tile in tilesAroundCurrent:
-                if tile.x >= 0 and tile.x < self.rowDimension and tile.y >= 0 and tile.y < self.colDimension and tile not in self.safeTiles and tile not in self.exploredTiles and tile not in self.safeTiles:
+                if tile.x >= 0 and tile.x < self.rowDimension and tile.y >= 0 and tile.y < self.colDimension and tile not in self.safeTiles and tile not in self.exploredTiles and tile not in self.flaggedTiles:
                     self.safeTiles.append(tile)
+                    print("append tile:")
+                    print([tile.x + 1, tile.y + 1])
                     tile.uncoverTile()
                     self.tiles[self.rowDimension - 1 - tile.y][tile.x] = tile
 
@@ -141,7 +143,7 @@ class MyAI(AI):
             print([self.curTile.x + 1, self.curTile.y + 1])
             print("Current Need to Uncover list")
             for tile in self.safeTiles:
-                print([tile.x + 1, tile.y + 1])
+                print([tile.x + 1, tile.y + 1])x
 
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
@@ -264,6 +266,8 @@ class MyAI(AI):
             for neighbour_y in range (y - 1, y + 2):
                 if 0 <= neighbour_x < self.rowDimension and 0 <= neighbour_y < self.colDimension and not(x == neighbour_x and y == neighbour_y):
                     neighbours.append(self.tiles[self.rowDimension - 1 - neighbour_y][neighbour_x])
+
+        print("")
 
         return neighbours
     
