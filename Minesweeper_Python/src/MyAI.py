@@ -137,7 +137,11 @@ class MyAI(AI):
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
             self.whenToLeaveCounter -= 1
+            print("Next to uncover:")
             print([self.curTile.x + 1, self.curTile.y + 1])
+            print("Current Need to Uncover list")
+            for tile in self.safeTiles:
+                print([tile.x + 1, tile.y + 1])
 
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
