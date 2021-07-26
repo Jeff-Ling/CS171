@@ -168,7 +168,7 @@ class MyAI(AI):
                     covered_Tile = []
                     tilesAroundCurrent = self.findNeighbours(tile.x, tile.y)
                     for x in tilesAroundCurrent:
-                        if x.getHint() == ".":
+                        if x.getHint() == '.':
                             covered_Tile.append(x)
                         elif x.getHint == -1:
                             flag_Tile.append(x)
