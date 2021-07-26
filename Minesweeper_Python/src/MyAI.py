@@ -118,8 +118,8 @@ class MyAI(AI):
         self.curTile.setHint(number)
 
         if (number == 0):
-			# Append uncovered tiles to list
-            self.safeTiles.append(self.curTile)
+			'''# Append uncovered tiles to list
+            self.safeTiles.append(self.curTile)'''
 
 			# Uncover all tiles around safe tile
             tilesAroundCurrent = self.findNeighbours(self.curTile.x, self.curTile.y)
