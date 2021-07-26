@@ -148,6 +148,7 @@ class MyAI(AI):
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         elif self.flaggedTiles:
+            print("try to flag tiles")
             self.curTile = self.flaggedTiles.pop()
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
@@ -158,6 +159,7 @@ class MyAI(AI):
 
         # No more safe tiles
         else:
+            print("No more safe tiles")
             for tile in self.exploredTiles:
                 if tile.getHint() > 0:
                 
@@ -170,13 +172,13 @@ class MyAI(AI):
                         elif x.getHint == -1:
                             flag_Tile.append(x)
                             
-                    if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
+                    '''if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
                         for y in covered_Tile:
                             self.flaggedTiles.append(y)
                             
                     elif tile.getHint() == len(flag_Tile) and len(covered_Tile) != 0:
                         for y in covered_Tile:
-                            self.needUncover.append(y)
+                            self.safeTiles.append(y)'''
 
                     if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
 
