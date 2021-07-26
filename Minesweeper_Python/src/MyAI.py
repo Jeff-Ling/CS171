@@ -127,7 +127,7 @@ class MyAI(AI):
 			# Ensure action in bound
             for tile in tilesAroundCurrent:
                 if tile.x >= 0 and tile.x <= self.rowDimension and tile.y >= 0 and tile.y <= self.colDimension and tile not in self.needUncover and tile not in self.hintTiles and tile not in self.safeTiles:
-                    self.needUncover.append(tile)
+                    self.safeTiles.append(tile)
             tile.uncoverTile()
             self.tiles[self.rowDimension - 1 - tile.y][tile.x] = tile
 
