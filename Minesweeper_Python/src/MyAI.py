@@ -129,8 +129,8 @@ class MyAI(AI):
             for tile in tilesAroundCurrent:
                 if tile.x >= 0 and tile.x < self.rowDimension and tile.y >= 0 and tile.y < self.colDimension and tile not in self.safeTiles and tile not in self.exploredTiles and tile not in self.flaggedTiles:
                     self.safeTiles.append(tile)
-                    print("append tile:")
-                    print([tile.x + 1, tile.y + 1])
+                    '''print("append tile:")
+                    print([tile.x + 1, tile.y + 1])'''
                     tile.uncoverTile()
                     self.tiles[self.rowDimension - 1 - tile.y][tile.x] = tile
 
@@ -140,47 +140,34 @@ class MyAI(AI):
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
             self.whenToLeaveCounter -= 1
-            print("Next to uncover:")
-            print([self.curTile.x + 1, self.curTile.y + 1])
-            print("Current Need to Uncover list")
-            for tile in self.safeTiles:
-                print([tile.x + 1, tile.y + 1])
 
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         elif self.flaggedTiles:
-            print("Next to flag")
             self.curTile = self.flaggedTiles.pop()
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
             self.curTile.flag = True
             self.numMines += 1
-            print([self.curTile.x + 1, self.curTile.y + 1])
-            print("Current Need to Flag")
-            for tile in self.flaggedTiles:
-                print([tile.x + 1, tile.y + 1])
 
             return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
         # No more safe tiles
         else:
-            print("No more safe tiles")
             for tile in self.exploredTiles:
                 if tile.getHint() > 0:
-                    print("Current Tile")
-                    print([tile.x + 1, tile.y + 1])
                 
                     flag_Tile = []
                     covered_Tile = []
                     tilesAroundCurrent = self.findNeighbours(tile.x, tile.y)
                     for tilex in tilesAroundCurrent:
                         if tilex.getHint() == '.':
-                            print("Append covered_Tile")
-                            print([tilex.x + 1, tilex.y + 1])
+                            '''print("Append covered_Tile")
+                            print([tilex.x + 1, tilex.y + 1])'''
                             covered_Tile.append(tilex)
                         elif tilex.getHint() == -1:
-                            print("Append flag_Tile")
-                            print([tilex.x + 1, tilex.y + 1])
+                            '''print("Append flag_Tile")
+                            print([tilex.x + 1, tilex.y + 1])'''
                             flag_Tile.append(tilex)
                             
                     '''if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
@@ -198,8 +185,8 @@ class MyAI(AI):
                         self.unexploredTiles.remove(self.curTile)
                         self.curTile.flag = True
                         self.numMines += 1
-                        print("Flag Tile 195")
-                        print([self.curTile.x + 1, self.curTile.y + 1])
+                        '''print("Flag Tile 195")
+                        print([self.curTile.x + 1, self.curTile.y + 1])'''
 
                         return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
@@ -211,8 +198,8 @@ class MyAI(AI):
                             self.exploredTiles.append(self.curTile)
                             self.unexploredTiles.remove(self.curTile)
                             self.whenToLeaveCounter -= 1
-                            print("Uncover Tile 208")
-                            print([self.curTile.x + 1, self.curTile.y + 1])
+                            '''print("Uncover Tile 208")
+                            print([self.curTile.x + 1, self.curTile.y + 1])'''
 
                             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
@@ -283,8 +270,6 @@ class MyAI(AI):
             for neighbour_y in range (y - 1, y + 2):
                 if 0 <= neighbour_x < self.rowDimension and 0 <= neighbour_y < self.colDimension and not(x == neighbour_x and y == neighbour_y):
                     neighbours.append(self.tiles[self.rowDimension - 1 - neighbour_y][neighbour_x])
-
-        print("")
 
         return neighbours
     
