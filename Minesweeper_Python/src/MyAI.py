@@ -167,6 +167,8 @@ class MyAI(AI):
             print("No more safe tiles")
             for tile in self.exploredTiles:
                 if tile.getHint() > 0:
+                    print("Current Tile")
+                    print([tile.x + 1, tile.y + 1])
                 
                     flag_Tile = []
                     covered_Tile = []
