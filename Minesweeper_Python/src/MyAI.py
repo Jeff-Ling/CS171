@@ -171,15 +171,15 @@ class MyAI(AI):
                     flag_Tile = []
                     covered_Tile = []
                     tilesAroundCurrent = self.findNeighbours(tile.x, tile.y)
-                    for x in tilesAroundCurrent:
-                        if x.getHint() == '.':
+                    for tilex in tilesAroundCurrent:
+                        if tilex.getHint() == '.':
                             print("Append covered_Tile")
-                            print[x.x + 1, x.y + 1]
-                            covered_Tile.append(x)
-                        elif x.getHint == -1:
+                            print[tilex.x + 1, tilex.y + 1]
+                            covered_Tile.append(tilex)
+                        elif tilex.getHint == -1:
                             print("Append flag_Tile")
-                            print[x.x + 1, x.y + 1]
-                            flag_Tile.append(x)
+                            print[tilex.x + 1, tilex.y + 1]
+                            flag_Tile.append(tilex)
                             
                     '''if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
                         for y in covered_Tile:
