@@ -178,7 +178,7 @@ class MyAI(AI):
                             print("Append covered_Tile")
                             print([tilex.x + 1, tilex.y + 1])
                             covered_Tile.append(tilex)
-                        elif tilex.getHint == -1:
+                        elif tilex.getHint() == -1:
                             print("Append flag_Tile")
                             print([tilex.x + 1, tilex.y + 1])
                             flag_Tile.append(tilex)
