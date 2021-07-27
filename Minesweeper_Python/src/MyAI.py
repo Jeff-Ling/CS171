@@ -174,11 +174,11 @@ class MyAI(AI):
                     for tilex in tilesAroundCurrent:
                         if tilex.getHint() == '.':
                             print("Append covered_Tile")
-                            print[tilex.x + 1, tilex.y + 1]
+                            print([tilex.x + 1, tilex.y + 1])
                             covered_Tile.append(tilex)
                         elif tilex.getHint == -1:
                             print("Append flag_Tile")
-                            print[tilex.x + 1, tilex.y + 1]
+                            print([tilex.x + 1, tilex.y + 1])
                             flag_Tile.append(tilex)
                             
                     '''if tile.getHint() == len(covered_Tile) + len(flag_Tile) and len(covered_Tile) != 0:
