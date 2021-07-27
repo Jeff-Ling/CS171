@@ -149,12 +149,16 @@ class MyAI(AI):
             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
         elif self.flaggedTiles:
-            print("try to flag tiles")
+            print("Next to flag")
             self.curTile = self.flaggedTiles.pop()
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
             self.curTile.flag = True
             self.numMines += 1
+            print([self.curTile.x + 1, self.curTile.y + 1])
+            print("Current Need to Flag")
+            for tile in self.flaggedTiles:
+                print([tile.x + 1, tile.y + 1])
 
             return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
@@ -188,6 +192,8 @@ class MyAI(AI):
                         self.unexploredTiles.remove(self.curTile)
                         self.curTile.flag = True
                         self.numMines += 1
+                        print("Flag Tile 195")
+                        print([self.curTile.x + 1, self.curTile.y + 1])
 
                         return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
 
@@ -199,6 +205,8 @@ class MyAI(AI):
                             self.exploredTiles.append(self.curTile)
                             self.unexploredTiles.remove(self.curTile)
                             self.whenToLeaveCounter -= 1
+                            print("Uncover Tile 208")
+                            print([self.curTile.x + 1, self.curTile.y + 1])
 
                             return Action(AI.Action.UNCOVER, self.curTile.x, self.curTile.y)
 
