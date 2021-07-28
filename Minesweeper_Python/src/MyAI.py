@@ -244,21 +244,6 @@ class MyAI(AI):
         if self.numMines == self.totalMines:
             return Action(AI.Action.LEAVE)
 
-        # Best Guess
-        if not self.safeTiles:
-            min_p = 10
-            for x in [z for z in self.exploredTiles if z.hint > 0]:
-                for t in self.getNeighbors(x):
-                    if t.covered and not t.flag:
-                        coveredNeighbors = [c for c in self.getNeighbors(x) if c.covered]
-                        if coveredNeighbors:
-                            cur_p = int(x.hint)/len(coveredNeighbors)
-                            if cur_p < min_p:
-                                min_p = cur_p
-                                self.curTile = t
-            self.exploreTile(self.curTile)
-            return Action(AI.Action.UNCOVER, self.curTile.location[0], self.curTile.location[1])
-
 
         return Action(AI.Action.LEAVE)
 
