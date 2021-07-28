@@ -244,7 +244,7 @@ class MyAI(AI):
         if self.numMines == self.totalMines:
             return Action(AI.Action.LEAVE)
 
-        '''# Best Guess
+        # Best Guess
         if not self.safeTiles:
             min_p = 10
             for x in [z for z in self.exploredTiles if z.hint > 0]:
@@ -257,7 +257,7 @@ class MyAI(AI):
                                 min_p = cur_p
                                 self.curTile = t
             self.exploreTile(self.curTile)
-            return Action(AI.Action.UNCOVER, self.curTile.location[0], self.curTile.location[1])'''
+            return Action(AI.Action.UNCOVER, self.curTile.location[0], self.curTile.location[1])
 
 
         return Action(AI.Action.LEAVE)
