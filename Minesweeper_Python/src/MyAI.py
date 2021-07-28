@@ -19,10 +19,10 @@ from collections import Counter
 
 class Tile():
 
-    def __init__(self, location: tuple = (None, None), hint: int = '.', mine: bool = False, covered: bool = True, flag: bool = False):
+    def __init__(self, location: tuple = (None, None), hint: int = '.', mine: bool = False, isCovered: bool = True, isFlagged: bool = False):
         self.mine = mine
-        self.covered = covered
-        self.flag = flag
+        self.isCovered = isCovered
+        self.isFlagged = isFlagged
         self.hint = hint
         self.location = location
         self.x = location[0]
@@ -37,7 +37,7 @@ class Tile():
         self.hint = num
     
     def uncoverTile(self):
-        self.covered = False
+        self.isCovered = False
 
 
 class Constrain:
@@ -74,6 +74,11 @@ class MyAI(AI):
 
     def __init__(self, rowDimension, colDimension, totalMines, startX, startY):
 
+        ########################################################################
+		#							YOUR CODE BEGINS						   #
+		########################################################################
+        # Edited by Y. Song and J. Ling at 2021.07.10
+
         self.rowDimension = rowDimension
         self.colDimension = colDimension
         self.totalMines = totalMines
@@ -103,9 +108,18 @@ class MyAI(AI):
         for row in self.tiles:
             for tile in row:
                 self.unexploredTiles.append(tile)
+        
+        ########################################################################
+	    #							YOUR CODE ENDS							   #
+	    ########################################################################
 
 
     def getAction(self, number: int) -> "Action Object":
+
+        ########################################################################
+		#							YOUR CODE BEGINS						   #
+		########################################################################
+        # Edited by Y. Song and J. Ling at 2021.07.10
 
         if self.firstStep:
             self.firstStep = False
@@ -147,7 +161,7 @@ class MyAI(AI):
             self.curTile = self.flaggedTiles.pop()
             self.exploredTiles.append(self.curTile)
             self.unexploredTiles.remove(self.curTile)
-            self.curTile.flag = True
+            self.curTile.isFlagged = True
             self.numMines += 1
 
             return Action(AI.Action.FLAG, self.curTile.x, self.curTile.y)
@@ -247,7 +261,11 @@ class MyAI(AI):
 
         return Action(AI.Action.LEAVE)
 
-    # returns neighbors' locationations
+        ########################################################################
+	    #							YOUR CODE ENDS							   #
+	    ########################################################################
+
+    # returns neighbours' locationations
     def findNeighbours(self, x, y) -> list:
 
         neighbours = []
